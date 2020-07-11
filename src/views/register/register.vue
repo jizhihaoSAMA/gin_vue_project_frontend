@@ -65,6 +65,9 @@
 <script>
 import { required, minLength, maxLength } from 'vuelidate/lib/validators'
 import CustomValidator from '@/helper/validator.js'
+import qs from 'querystring'
+
+import storageService from '@/service/storageService'
 
 export default {
   data() {
@@ -101,11 +104,15 @@ export default {
         return; 
       }
       const api = "http://localhost:8081/api/auth/register";
-      this.axios.post(api,{ ...this.user }).then(res => {
+      this.axios.post(api,qs.stringify({ ...this.user })).then(res => {
         console.log(res)
       }).catch(err => {
         // 请求失败，让前端响应请求
-        console.error(err.response.data); 
+        this.$bvToast.toast(err.response.data.msg, {
+          title: '注册失败',
+          variant: 'danger',
+          solid: true,
+        })
       });
 
 
