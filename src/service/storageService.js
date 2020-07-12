@@ -1,9 +1,9 @@
-// 本地缓存服务
+// 本地缓存服务, 存放cookie
 
-const PREFIX = '';
+const PREFIX = 'my_project';
 
 // user模块
-const USER_PREFOX = `${PREFIX}user_`;
+const USER_PREFIX = `${PREFIX}user_`;
 const USER_TOKEN = `${USER_PREFIX}token`;
 const USER_INFO = `${USER_PREFIX}info`;
 
@@ -13,7 +13,7 @@ const set = (key, data) =>{
 };
 
 // 读取
-const get = (key) => localStorage.get(key);
+const get = (key) => localStorage.getItem(key);
 
 export default{
     set,

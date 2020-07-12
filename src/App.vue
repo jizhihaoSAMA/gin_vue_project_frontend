@@ -25,4 +25,8 @@ export default {
 //   -moz-osx-font-smoothing: grayscale;
 //   color: #2c3e50;
 // }
+.row{
+  margin-left: 0px;
+  margin-right: 0px;
+}
 </style>

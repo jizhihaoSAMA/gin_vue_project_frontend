@@ -12,7 +12,7 @@
             <b-form-group label="手机号">
               <b-form-input
                 v-model="$v.user.telephone.$model"
-                type="number"
+                type="text"
                 required
                 placeholder="输入手机号"
                 name="telephone"
@@ -43,7 +43,7 @@
               <b-button
                 variant="outline-primary"
                 block
-                @click="register"
+                @click="login"
               >登录</b-button>
             </b-form-group>
           </b-form>
@@ -56,6 +56,9 @@
 <script>
 import { required, minLength, maxLength } from 'vuelidate/lib/validators'
 import CustomValidator from '@/helper/validator.js'
+import storageService from '@/service/storageService';
+import userService from '@/service/userService'
+
 
 export default {
   data() {
@@ -88,6 +91,30 @@ export default {
       const {$dirty ,$error} = this.$v.user[name];
       return $dirty ? ! $error : null;
     },
+    login(){
+      // this.$v.user.$touch()
+      if (this.$v.user.$anyError){// 如果前端发现错误，不发送请求
+        return; 
+      }
+      // 发送请求
+      userService.login(this.user).then(res => {
+        // 保存token
+        storageService.set(storageService.USER_TOKEN, res.data.data.token);
+        userService.info().then(res=>{
+          // 以json格式保存用户信息
+          storageService.set(storageService.USER_INFO, JSON.stringify(res.data.data.user));
+          // 跳转主页
+        this.$router.replace({name:'profile'});
+        })
+      }).catch(err => { // 只要状态码不是成功，就会失败
+        // 请求失败，让前端响应请求
+        this.$bvToast.toast(err.response.data.msg, {
+          title: '登录失败',
+          variant: 'danger',
+          solid: true,
+        })
+      });
+    }
   }
 }
 </script>

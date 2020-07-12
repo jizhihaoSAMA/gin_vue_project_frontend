@@ -18,6 +18,11 @@ export default new VueRouter({
             path: '/login',
             name: 'login',
             component: () => import("../views/login/login.vue"),
+        },
+        {
+            path: '/profile',
+            name: 'profile',
+            component: () => import("../views/user/profile.vue")
         }
     ]
 });
