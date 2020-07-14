@@ -65,7 +65,6 @@
 <script>
 import { required, minLength, maxLength } from 'vuelidate/lib/validators';
 import CustomValidator from '@/helper/validator';
-import storageService from '@/service/storageService';
 import userService from '@/service/userService'
 
 export default {
@@ -105,12 +104,12 @@ export default {
       // 发送请求
       userService.register(this.user).then(res => {
         // 保存token
-        storageService.set(storageService.USER_TOKEN, res.data.data.token);
+        this.$store.commit('userModule/SET_TOKEN', res.data.data.token);
         // console.log(res)
         userService.info().then(res=>{
           // 以json格式保存用户信息
           console.log(res)
-          storageService.set(storageService.USER_INFO, JSON.stringify(res.data.user));
+          this.$store.commit('userModule/SET_USERINFO', res.data.data.user);
           // 跳转主页
           this.$router.replace({name:'profile'});
         })
