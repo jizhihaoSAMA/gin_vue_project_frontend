@@ -65,54 +65,50 @@
 <script>
 import { required, minLength, maxLength } from 'vuelidate/lib/validators';
 import CustomValidator from '@/helper/validator';
-import userService from '@/service/userService'
+import { mapActions } from 'vuex'
+
 
 export default {
-  data() {
+  data () {
     return {
-      user:{
-        username:"",
-        telephone:"",
-        password:"",
+      user: {
+        username: "",
+        telephone: "",
+        password: "",
       },
       validation: null,
     };
   },
 
   validations: {
-    user:{
-      username:{
+    user: {
+      username: {
       },
-      telephone:{
+      telephone: {
         required,
         telephone: CustomValidator.telephoneValidator,
       },
-      password:{
+      password: {
         required,
         minLength: minLength(6),
         maxLength: maxLength(20),
       },
     }
   },
-  methods:{
-    register(){
+  methods: {
+    // 由于已经存在register 方法，所以需要用userRegister修改.
+    ...mapActions('userModule', { userRegister: 'register' }),
+
+    register () {
       // 先验证数据
       this.$v.user.$touch()
-      if (this.$v.user.$anyError){// 如果前端发现错误，不发送请求
-        return; 
+      if (this.$v.user.$anyError) {// 如果前端发现错误，不发送请求
+        return;
       }
       // 发送请求
-      userService.register(this.user).then(res => {
-        // 保存token
-        this.$store.commit('userModule/SET_TOKEN', res.data.data.token);
-        // console.log(res)
-        userService.info().then(res=>{
-          // 以json格式保存用户信息
-          console.log(res)
-          this.$store.commit('userModule/SET_USERINFO', res.data.data.user);
-          // 跳转主页
-          this.$router.replace({name:'profile'});
-        })
+      this.userRegister(this.user).then(() => {
+        // 跳转主页
+        this.$router.replace({ name: 'profile' })
       }).catch(err => { // 只要状态码不是成功，就会失败
         // 请求失败，让前端响应请求
         this.$bvToast.toast(err.response.data.msg, {
@@ -120,11 +116,11 @@ export default {
           variant: 'danger',
           solid: true,
         })
-      });
+      })
     },
-    validateState(name){
-      const {$dirty ,$error} = this.$v.user[name];
-      return $dirty ? ! $error : null;
+    validateState (name) {
+      const { $dirty, $error } = this.$v.user[name];
+      return $dirty ? !$error : null;
     },
   }
 }

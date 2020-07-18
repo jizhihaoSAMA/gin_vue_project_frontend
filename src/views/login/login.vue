@@ -56,56 +56,50 @@
 <script>
 import { required, minLength, maxLength } from 'vuelidate/lib/validators'
 import CustomValidator from '@/helper/validator.js'
-import storageService from '@/service/storageService';
-import userService from '@/service/userService'
-
+import { mapActions } from 'vuex'
 
 export default {
-  data() {
+  data () {
     return {
-      user:{
-        telephone:"",
-        password:"",
+      user: {
+        telephone: "",
+        password: "",
       },
     };
   },
 
   validations: {
-    user:{
-      username:{
-        required,
-      },
-      telephone:{
+    user: {
+      telephone: {
         required,
         telephone: CustomValidator.telephoneValidator,
       },
-      password:{
+      password: {
         required,
         minLength: minLength(6),
         maxLength: maxLength(20),
       },
     }
   },
-  methods:{
-    validateState(name){
-      const {$dirty ,$error} = this.$v.user[name];
-      return $dirty ? ! $error : null;
+  methods: {
+    ...mapActions('userModule', { userLogin: 'login' }),
+
+    validateState (name) {
+      const { $dirty, $error } = this.$v.user[name];
+      return $dirty ? !$error : null;
     },
-    login(){
-      // this.$v.user.$touch()
-      if (this.$v.user.$anyError){// 如果前端发现错误，不发送请求
-        return; 
+    login () {
+      // 先验证数据
+      this.$v.user.$touch()
+
+      if (this.$v.user.$anyError) {// 如果前端发现错误，不发送请求
+        return;
       }
       // 发送请求
-      userService.login(this.user).then(res => {
-        // 保存token
-        storageService.set(storageService.USER_TOKEN, res.data.data.token);
-        userService.info().then(res=>{
-          // 以json格式保存用户信息
-          storageService.set(storageService.USER_INFO, JSON.stringify(res.data.data.user));
-          // 跳转主页
-        this.$router.replace({name:'profile'});
-        })
+      this.userLogin(this.user).then(() => {
+        // 跳转主页
+        console.log("login")
+        this.$router.replace({ name: 'profile' })
       }).catch(err => { // 只要状态码不是成功，就会失败
         // 请求失败，让前端响应请求
         this.$bvToast.toast(err.response.data.msg, {
@@ -113,8 +107,8 @@ export default {
           variant: 'danger',
           solid: true,
         })
-      });
-    }
+      })
+    },
   }
 }
 </script>
