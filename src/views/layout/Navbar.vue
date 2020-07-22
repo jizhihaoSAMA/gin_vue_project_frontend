@@ -27,19 +27,16 @@
               <b-dropdown-item href="#">个人主页</b-dropdown-item>
               <b-dropdown-item @click="logout">注销</b-dropdown-item>
             </b-nav-item-dropdown>
-            <div
-              class="nav"
+            <b-nav-item
+              :active="$route.name == 'login'"
+              @click="$router.replace({name:'login'})"
               v-if="!userInfo"
-            >
-              <b-nav-item
-                :active="$route.name == 'login'"
-                @click="$router.replace({name:'login'})"
-              >登陆</b-nav-item>
-              <b-nav-item
-                :active="$route.name == 'register'"
-                @click="$router.replace({name:'register'})"
-              >注册</b-nav-item>
-            </div>
+            >登陆</b-nav-item>
+            <b-nav-item
+              :active="$route.name == 'register'"
+              @click="$router.replace({name:'register'})"
+              v-if="!userInfo"
+            >注册</b-nav-item>
           </b-navbar-nav>
         </b-collapse>
       </b-container>
@@ -53,12 +50,6 @@ export default {
   computed: mapState({
     userInfo: (state) => state.userModule.userInfo,
   }),
-  methods: {
-    ...mapActions('userModule', ['logout']),
-
-    logout () {
-      this.logout()
-    }
-  }
+  methods: mapActions('userModule', ['logout']),
 };
 </script>

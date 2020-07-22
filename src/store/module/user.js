@@ -6,7 +6,7 @@ const userModule = {
     namespaced: true,
     state: {
         token: storageService.get(storageService.USER_TOKEN),
-        userInfo: JSON.parse(storageService.get(storageService.USER_INFO)),
+        userInfo: storageService.get(storageService.USER_INFO) ? JSON.parse(storageService.get(storageService.USER_INFO)) : null,
     },
     mutations: {
         SET_TOKEN (state, token) {
@@ -53,13 +53,13 @@ const userModule = {
                 })
             })
         },
-        logout (context) {
+        logout ({ commit }) {
             //直接清除token
-            context.commit('SET_TOKEN', '')
-            storageService.set(storageService.SET_TOKEN, '')
+            commit('SET_TOKEN', '')
+            storageService.set(storageService.USER_TOKEN, '')
             // 清除用户信息
-            context.commit('SET_USERINFO', '')
-            storageService.set(storageService.SET_USERINFO, '')
+            commit('SET_USERINFO', '')
+            storageService.set(storageService.USER_INFO, '')
         }
     }
 }
