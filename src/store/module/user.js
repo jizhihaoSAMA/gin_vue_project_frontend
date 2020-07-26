@@ -46,6 +46,7 @@ const userModule = {
                     return userService.info()
                 }).then(res => {
                     // 保存用户信息
+                    console.log(res.data.data.user)
                     context.commit('SET_USERINFO', res.data.data.user)
                     resolve(res)
                 }).catch(err => {

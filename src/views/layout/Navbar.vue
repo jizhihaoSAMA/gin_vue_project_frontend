@@ -20,9 +20,12 @@
 
           <!-- Right aligned nav items -->
           <b-navbar-nav class="ml-auto">
-            <b-nav-item-dropdown right>
+            <b-nav-item-dropdown
+              right
+              v-if="userInfo"
+            >
               <template v-slot:button-content>
-                <em>{{ userInfo.Username }}</em>
+                <em>{{ userInfo.username }}</em>
               </template>
               <b-dropdown-item href="#">个人主页</b-dropdown-item>
               <b-dropdown-item @click="logout">注销</b-dropdown-item>
