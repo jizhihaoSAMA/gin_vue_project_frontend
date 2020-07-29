@@ -13,6 +13,7 @@ const userRoutes = [
         path: '/profile',
         name: 'profile',
         meta: {
+            // 需要认证才能进入
             auth: {
                 username: name,
                 password: name

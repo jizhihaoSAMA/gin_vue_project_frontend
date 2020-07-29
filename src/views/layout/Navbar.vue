@@ -6,20 +6,33 @@
       variant="info"
     >
       <b-container>
+        <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
         <b-navbar-brand
           href="#"
-          @click="$router.push({name:'The tool'})"
-        >老子的网页</b-navbar-brand>
+          @click="$router.push({name:'index'})"
+          class="mx-auto"
+        >测试网页</b-navbar-brand>
 
-        <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
+        <b-nav-form>
+          <b-form-input
+            size="sm"
+            class="mr-auto ml-1 my-2 my-sm-1 mr-md-1 col-9 offset-0 col-md-4 offset-md-4"
+            placeholder="Search"
+          ></b-form-input>
+          <b-button
+            size="sm"
+            class="col-2 col-md-1"
+            type="submit"
+          >Search</b-button>
+        </b-nav-form>
 
         <b-collapse
           id="nav-collapse"
           is-nav
         >
-
           <!-- Right aligned nav items -->
           <b-navbar-nav class="ml-auto">
+
             <b-nav-item-dropdown
               right
               v-if="userInfo"
@@ -56,3 +69,9 @@ export default {
   methods: mapActions('userModule', ['logout']),
 };
 </script>
+
+<style scoped>
+.form-inline {
+  width: 100%;
+}
+</style>
