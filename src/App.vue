@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import navbar from "./views/layout/Navbar.vue";
+import navbar from "./views/layout/Navbar"
 
 export default {
   name: "App",
@@ -25,7 +25,7 @@ export default {
 //   -moz-osx-font-smoothing: grayscale;
 //   color: #2c3e50;
 // }
-.row{
+.row {
   margin-left: 0px;
   margin-right: 0px;
 }

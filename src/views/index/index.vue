@@ -3,13 +3,15 @@
     class=""
     id=""
   >
-
+    <classification />
   </div>
 </template>
 <script>
-export default {
-  data () {
+import classification from "../layout/Classification"
 
+export default {
+  components: {
+    classification
   }
 }
 </script>

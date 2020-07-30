@@ -13,15 +13,16 @@
           class="mx-auto"
         >测试网页</b-navbar-brand>
 
-        <b-nav-form>
+        <b-nav-form class="mx-auto">
           <b-form-input
             size="sm"
-            class="mr-auto ml-1 my-2 my-sm-1 mr-md-1 col-9 offset-0 col-md-4 offset-md-4"
+            class="my-2 my-sm-1 mr-md-1 col-8 col-md-8"
             placeholder="Search"
+            id="search_input"
           ></b-form-input>
           <b-button
             size="sm"
-            class="col-2 col-md-1"
+            class="col-3 col-md-3"
             type="submit"
           >Search</b-button>
         </b-nav-form>
@@ -66,12 +67,24 @@ export default {
   computed: mapState({
     userInfo: (state) => state.userModule.userInfo,
   }),
-  methods: mapActions('userModule', ['logout']),
+  methods: {
+    ...mapActions('userModule', { userLogout: 'logout' }),
+
+    logout () {
+      this.$router.push({ name: "index" })
+      this.userLogout()
+    }
+  }
+
+
 };
 </script>
 
 <style scoped>
-.form-inline {
+#search_input {
+  width: 80%;
+}
+form {
   width: 100%;
 }
 </style>
