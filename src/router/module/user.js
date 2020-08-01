@@ -2,12 +2,12 @@ const userRoutes = [
     {
         path: '/register',
         name: 'register',
-        component: () => import('@/views/register/register.vue'),
+        component: () => import('@/views/user/register.vue'),
     },
     {
         path: '/login',
         name: 'login',
-        component: () => import("@/views/login/login.vue"),
+        component: () => import("@/views/user/login.vue"),
     },
     {
         path: '/profile',

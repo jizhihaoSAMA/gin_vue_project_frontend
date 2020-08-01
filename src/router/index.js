@@ -1,6 +1,7 @@
 import Vue from "vue"
 import VueRouter from "vue-router"
 import userRoutes from "./module/user"
+import newsRoutes from "./module/news"
 import store from "@/store"
 
 Vue.use(VueRouter);
@@ -9,12 +10,13 @@ const router = new VueRouter({
     mode: 'history',
     base: process.env.BASE_URL,
     routes: [
-        ...userRoutes,
         {
             path: "/",
             name: "index",
-            component: () => import("@/views/index/index.vue")
-        }
+            component: () => import("@/views/page_template/index.vue")
+        },
+        ...userRoutes,
+        ...newsRoutes,
     ]
 })
 

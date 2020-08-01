@@ -1,24 +1,41 @@
 <template>
-  <div id="app">
+  <div id='app'>
     <navbar />
-    <!-- <b-container> -->
-    <router-view></router-view>
-    <!-- </b-container> -->
+    <b-container>
+      <classification v-if='showClassification' />
+      <router-view></router-view>
+    </b-container>
   </div>
 </template>
 
 <script>
-import navbar from "./views/layout/Navbar"
+import navbar from '@/components/layout/Navbar'
+import classification from '@/components/layout/Classification'
 
 export default {
-  name: "App",
+  name: 'App',
+  data () {
+    return {
+      classificationBlackList: ['login', 'register', 'profile']
+    }
+  },
+  computed: {
+    showClassification: function () {
+      if (this.classificationBlackList.indexOf(this.$route.name) == -1) {
+        return true
+      } else {
+        return false
+      }
+    }
+  },
   components: {
-    navbar
+    navbar,
+    classification,
   }
 };
 </script>
 
-<style lang="scss">
+<style lang='scss'>
 // #app {
 //   font-family: Avenir, Helvetica, Arial, sans-serif;
 //   -webkit-font-smoothing: antialiased;

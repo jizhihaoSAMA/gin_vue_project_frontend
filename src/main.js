@@ -8,7 +8,7 @@ import Vue from 'vue';
 import App from './App.vue';
 import router from './router';
 import store from './store'
-Vue.config.productionTip = false;
+// Vue.config.productionTip = false;
 
 // Use Bootstrap
 Vue.use(BootstrapVue)
@@ -23,6 +23,6 @@ Vue.use(VueAxios, axios)
 new Vue({
   // 让路由使用
   router,
-  store: store,
+  store,
   render: h => h(App),
 }).$mount("#app")
