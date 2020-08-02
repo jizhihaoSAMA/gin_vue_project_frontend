@@ -3,42 +3,46 @@
     class=""
     id=""
   >
-    <b-nav
-      align="center"
-      pills
-    >
-      <b-navbar-brand class="sm-hide hide">
+    <b-navbar>
+      <b-navbar-brand>
         <img
           src="@/assets/haosamaglasses.png"
           style="border-radius:100%; width:40px;"
         />
         哈哈新闻
       </b-navbar-brand>
-      <b-nav-item
-        :active="$route.params.news_type == 'war'"
-        @click="$router.push({path:'/news/war'})"
-      >军事</b-nav-item>
-      <b-nav-item
-        :active="$route.params.news_type == 'war'"
-        @click="$router.push({path:'/news/war'})"
-      >军事</b-nav-item>
-      <b-nav-item
-        :active="$route.params.news_type == 'war'"
-        @click="$router.push({path:'/news/war'})"
-      >军事</b-nav-item>
-      <b-nav-item
-        :active="$route.params.news_type == 'tech'"
-        @click="$router.push({path:'/news/tech'})"
-      >科技</b-nav-item>
-      <b-nav-item
-        :active="$route.params.news_type == 'tech'"
-        @click="$router.push({path:'/news/tech'})"
-      >科技</b-nav-item>
-      <b-nav-item
-        :active="$route.params.news_type == 'tech'"
-        @click="$router.push({path:'/news/tech'})"
-      >科技</b-nav-item>
-    </b-nav>
+      <b-nav
+        pills
+        class="mx-auto"
+      >
+        <b-navbar-nav>
+          <b-nav-item
+            :active="$route.params.news_type == 'war'"
+            @click="$router.push({path:'/news/war'})"
+          >军事</b-nav-item>
+          <b-nav-item
+            :active="$route.params.news_type == 'war'"
+            @click="$router.push({path:'/news/war'})"
+          >军事</b-nav-item>
+          <b-nav-item
+            :active="$route.params.news_type == 'war'"
+            @click="$router.push({path:'/news/war'})"
+          >军事</b-nav-item>
+          <b-nav-item
+            :active="$route.params.news_type == 'tech'"
+            @click="$router.push({path:'/news/tech'})"
+          >科技</b-nav-item>
+          <b-nav-item
+            :active="$route.params.news_type == 'tech'"
+            @click="$router.push({path:'/news/tech'})"
+          >科技</b-nav-item>
+          <b-nav-item
+            :active="$route.params.news_type == 'tech'"
+            @click="$router.push({path:'/news/tech'})"
+          >科技</b-nav-item>
+        </b-navbar-nav>
+      </b-nav>
+    </b-navbar>
   </div>
 </template>
 <script>
