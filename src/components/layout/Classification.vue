@@ -4,7 +4,7 @@
     id=""
   >
     <b-navbar>
-      <b-navbar-brand>
+      <b-navbar-brand class="d-none d-md-block mx-auto">
         <img
           src="@/assets/haosamaglasses.png"
           style="border-radius:100%; width:40px;"
