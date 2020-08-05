@@ -1,7 +1,7 @@
 <template>
   <div id='app'>
     <navbar />
-    <b-container>
+    <b-container style="background:white">
       <classification v-if='showClassification' />
       <router-view></router-view>
     </b-container>
@@ -36,12 +36,10 @@ export default {
 </script>
 
 <style lang='scss'>
-// #app {
-//   font-family: Avenir, Helvetica, Arial, sans-serif;
-//   -webkit-font-smoothing: antialiased;
-//   -moz-osx-font-smoothing: grayscale;
-//   color: #2c3e50;
-// }
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  background-color: whitesmoke;
+}
 .row {
   margin-left: 0px;
   margin-right: 0px;
