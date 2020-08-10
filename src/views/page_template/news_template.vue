@@ -15,7 +15,35 @@
               Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim.
             </div>
             <hr>
-            <h5>评论</h5>
+
+            <div>
+              <div style="font-size:18px;display:inline-block;">评论</div>
+              <div style="width:15%;float:right">
+                <b-button
+                  v-b-toggle.collapse-1
+                  size="sm"
+                  variant="outline-primary"
+                >发表评论</b-button>
+              </div>
+              <b-collapse
+                id="collapse-1"
+                class="mt-2"
+              >
+                <b-card>
+                  <p class="card-text">Collapse contents Here</p>
+                  <b-button
+                    v-b-toggle.collapse-1-inner
+                    size="sm"
+                  >Toggle Inner Collapse</b-button>
+                  <b-collapse
+                    id="collapse-1-inner"
+                    class="mt-2"
+                  >
+                    <b-card>Hello!</b-card>
+                  </b-collapse>
+                </b-card>
+              </b-collapse>
+            </div>
             <div id="comment">
 
             </div>
