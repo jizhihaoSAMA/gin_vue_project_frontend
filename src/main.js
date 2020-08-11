@@ -1,4 +1,4 @@
-import { BootstrapVue, IconsPlugin } from 'bootstrap-vue';
+import { BootstrapVue, IconsPlugin, BootstrapVueIcons } from 'bootstrap-vue';
 import './assets/scss/index.scss';
 import Vuelidate from 'vuelidate';
 import axios from 'axios';
@@ -13,7 +13,7 @@ import store from './store'
 // Use Bootstrap
 Vue.use(BootstrapVue)
 Vue.use(IconsPlugin)
-
+Vue.use(BootstrapVueIcons)
 // Use vuelidate
 Vue.use(Vuelidate)
 

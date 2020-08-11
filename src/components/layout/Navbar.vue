@@ -11,7 +11,7 @@
           href="#"
           @click="$router.push({name:'index'})"
           class="mx-auto"
-        >测试网页</b-navbar-brand>
+        >哈哈新闻</b-navbar-brand>
 
         <b-nav-form class="mx-auto">
           <b-form-input
