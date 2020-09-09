@@ -18,27 +18,27 @@
         <b-navbar-nav>
           <b-nav-item
             :active="$route.params.news_type == 'war'"
-            @click="$router.push({path:'/news/war'})"
+            @click="$router.push({path:'/news/type/war'})"
           >军事</b-nav-item>
           <b-nav-item
             :active="$route.params.news_type == 'war'"
-            @click="$router.push({path:'/news/war'})"
+            @click="$router.push({path:'/news/type/war'})"
           >军事</b-nav-item>
           <b-nav-item
             :active="$route.params.news_type == 'war'"
-            @click="$router.push({path:'/news/war'})"
+            @click="$router.push({path:'/news/type/war'})"
           >军事</b-nav-item>
           <b-nav-item
             :active="$route.params.news_type == 'tech'"
-            @click="$router.push({path:'/news/tech'})"
+            @click="$router.push({path:'/news/type/tech'})"
           >科技</b-nav-item>
           <b-nav-item
             :active="$route.params.news_type == 'tech'"
-            @click="$router.push({path:'/news/tech'})"
+            @click="$router.push({path:'/news/type/tech'})"
           >科技</b-nav-item>
           <b-nav-item
             :active="$route.params.news_type == 'tech'"
-            @click="$router.push({path:'/news/tech'})"
+            @click="$router.push({path:'/news/type/tech'})"
           >科技</b-nav-item>
         </b-navbar-nav>
       </b-nav>

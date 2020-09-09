@@ -20,7 +20,7 @@
           class="my-2"
         >
           <b-list-group>
-            <b-list-group-item :href="'/news?id=' + news.id">
+            <b-list-group-item :href="'/news/' + news.id">
               {{ news.title }}
             </b-list-group-item>
           </b-list-group>
@@ -65,37 +65,49 @@
   </div>
 </template>
 <script>
+import request from '@/utils/request'
+
 export default {
   data () {
     return {
       news_list: [{
         "id": 1,
         "title": "这是新闻1-这是新闻1-这是新闻1-这是新闻1-这是新闻1-这是新闻1",
-        "post_time": "2020-08-01",
+        "time": "2020-08-01",
         "from": "BBC",
         "text": "据本台消息，发生了新闻1",
       }, {
         "id": 2,
         "title": "这是新闻二desu",
-        "post_time": "2020-09-01",
+        "time": "2020-09-01",
         "from": "CCTV",
         "text": "据本台消息，这是啥？"
       }],
       hot_news: [{
         "id": 1,
         "title": "这是新闻1-这是新闻1-这是新闻1-这是新闻1-这是新闻1-这是新闻1",
-        "post_time": "2020-08-01",
+        "time": "2020-08-01",
         "from": "BBC",
         "text": "据本台消息，发生了新闻1",
       }, {
         "id": 2,
         "title": "这是新闻二desu",
-        "post_time": "2020-09-01",
+        "time": "2020-09-01",
         "from": "CCTV",
         "text": "据本台消息，这是啥？"
       }],
     }
-  }
+  },
+  mounted () {
+    request.get("/get/news")
+      .then(res => {
+        this.news_list = res.data.news
+        console.log(res)
+      })
+      .catch(err => {
+        console.log(err)
+      })
+  },
 }
 </script>
 <style scoped>

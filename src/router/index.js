@@ -15,6 +15,11 @@ const router = new VueRouter({
             name: "index",
             component: () => import("@/views/page_template/index.vue")
         },
+        {
+            path: "notFound",
+            name: "notFound",
+            component: () => import("@/views/page_template/notFound.vue")
+        },
         ...userRoutes,
         ...newsRoutes,
     ]

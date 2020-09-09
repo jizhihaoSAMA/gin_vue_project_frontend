@@ -1,8 +1,5 @@
 <template>
-  <div v-if="idInvalided">
-    页面不存在
-  </div>
-  <div v-else>
+  <div>
     <b-container>
       <b-row>
         <b-col
@@ -36,6 +33,8 @@
 </template>
 <script>
 import commentbox from "@/components/layout/Commentbox"
+import request from '@/utils/request'
+
 
 export default {
   data () {
@@ -53,18 +52,25 @@ export default {
       }]
     }
   },
-  computed: {
-    idInvalided () {
-      if (this.$route.query.id == null) {
-        // 或者请求id不存在
-        return true
-      } else {
-        return false
-      }
-    },
+  methods: {
+    notFound () {
+      this.$router.replace({ name: "notFound" })
+    }
   },
   components: {
     commentbox
+  },
+  mounted () {
+    request.get("/get/news", {
+      params: {
+        id: this.$route.params.news_id,
+      }
+    }).then(res => {
+      this.news_list = res.data.news
+      console.log(res)
+    }).catch(err => {
+      console.log(err)
+    })
   }
 }
 </script>
