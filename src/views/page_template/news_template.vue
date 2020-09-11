@@ -7,9 +7,15 @@
           md="8"
         >
           <b-container>
-            <div id="content">
-              This is {{$route.query.id}}
-              Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim.
+            This is {{$route.params.news_id}}
+            <div v-if="news_obj.type=='normal'">
+              <normalNews :content="news_obj.content" />
+            </div>
+            <div v-if="news_obj.type=='photoview'">
+              <photoviewsNews
+                :content="news_obj.content"
+                :images="news_obj.images"
+              />
             </div>
             <hr>
             <commentbox />
@@ -34,12 +40,13 @@
 <script>
 import commentbox from "@/components/layout/Commentbox"
 import request from '@/utils/request'
-
+import normalNews from '@/components/layout/NormalNews'
+import photoviewsNews from '@/components/layout/PhotoviewNews'
 
 export default {
   data () {
     return {
-      showCommentBox: false,
+      news_obj: {},
       toggleText: "发表评论▾",
       comments: [{
         user_id: 123,
@@ -58,7 +65,9 @@ export default {
     }
   },
   components: {
-    commentbox
+    commentbox,
+    normalNews,
+    photoviewsNews,
   },
   mounted () {
     request.get("/get/news", {
@@ -66,7 +75,7 @@ export default {
         id: this.$route.params.news_id,
       }
     }).then(res => {
-      this.news_list = res.data.news
+      this.news_obj = res.data.data
       console.log(res)
     }).catch(err => {
       console.log(err)
