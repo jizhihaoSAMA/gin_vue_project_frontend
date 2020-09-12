@@ -7,9 +7,15 @@
           md="8"
         >
           <b-container>
-            This is {{$route.params.news_id}}
+            <h5
+              style="text-align:center"
+              class="mt-3 mb-5"
+            >{{ this.news_obj.title }}</h5>
             <div v-if="news_obj.type=='normal'">
-              <normalNews :content="news_obj.content" />
+              <normalNews
+                :content="news_obj.content"
+                :images="news_obj.images"
+              />
             </div>
             <div v-if="news_obj.type=='photoview'">
               <photoviewsNews
@@ -76,6 +82,17 @@ export default {
       }
     }).then(res => {
       this.news_obj = res.data.data
+      console.log(res)
+    }).catch(err => {
+      console.log(err)
+    })
+
+    request.get("/get/comments", {
+      params: {
+        news_id: this.$route.params.news_id,
+      }
+    }).then(res => {
+      this.comment_list = res.data.data
       console.log(res)
     }).catch(err => {
       console.log(err)
