@@ -53,6 +53,7 @@
                   block
                   pill
                   variant="primary"
+                  @click="sendComment"
                 >发送</b-button>
               </b-col>
             </b-row>
@@ -63,6 +64,7 @@
   </div>
 </template>
 <script>
+import request from '@/utils/request'
 export default {
   data () {
     return {
@@ -71,6 +73,7 @@ export default {
       showCommentBox: false,
     }
   },
+  props: ["news_id"],
   methods: {
     changeTip () {
       if (this.comment.length <= 5) {
@@ -80,6 +83,17 @@ export default {
       } else {
         this.tip = ""
       }
+    },
+    sendComment () {
+      var data = new FormData()
+      data.append("news_id", this.news_id)
+      data.append("comment", this.comment)
+
+      request.post("/post/comment", data).then(res => {
+        console.log(res.data)
+      }).catch(err => {
+        alert(err.response.data.msg)
+      })
     }
   }
 }

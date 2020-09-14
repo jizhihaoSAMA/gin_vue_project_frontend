@@ -24,7 +24,8 @@
               />
             </div>
             <hr>
-            <commentbox />
+            <commentbox :news_id="$route.params.news_id">
+            </commentbox>
             <div id="comment">
             </div>
           </b-container>
@@ -87,22 +88,16 @@ export default {
       console.log(err)
     })
 
-    request.get("/get/comments", {
-      params: {
-        news_id: this.$route.params.news_id,
-      }
-    }).then(res => {
-      this.comment_list = res.data.data
-      console.log(res)
-    }).catch(err => {
-      console.log(err)
-    })
+    // request.get("/get/comments", {
+    //   params: {
+    //     news_id: this.$route.params.news_id,
+    //   }
+    // }).then(res => {
+    //   this.comment_list = res.data.data
+    //   console.log(res)
+    // }).catch(err => {
+    //   console.log(err)
+    // })
   }
 }
 </script>
-
-<style scoped>
-.card-header {
-  font-size: 0.8rem !important;
-}
-</style>
