@@ -12,7 +12,7 @@
 
       <b-carousel-slide
         v-for="(image,index) in images"
-        :caption="getCaption"
+        :text="getCaption"
         :key="index"
         :img-src="image"
         id="ttt"
@@ -34,10 +34,6 @@ export default {
 <style>
 .carousel-caption {
   text-align: left;
-  top: 0;
-}
-
-.carousel-caption > h3 {
-  font-size: 1rem !important;
+  top: -2%;
 }
 </style>

@@ -16,7 +16,7 @@ const router = new VueRouter({
             component: () => import("@/views/page_template/index.vue")
         },
         {
-            path: "*",
+            path: "/nothing",
             name: "notFound",
             component: () => import("@/views/page_template/notFound.vue")
         },

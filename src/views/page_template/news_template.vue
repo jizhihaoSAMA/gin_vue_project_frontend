@@ -63,14 +63,15 @@ export default {
         user_id: 13,
         comment: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim.",
         post_time: "2000-11-10",
-      }]
+      }],
+      comment_list: [],
     }
   },
-  methods: {
-    notFound () {
-      this.$router.replace({ name: "notFound" })
-    }
-  },
+  // methods: {
+  //   notFound () {
+  //     this.$router.replace({ name: "notFound" })
+  //   }
+  // },
   components: {
     commentbox,
     normalNews,
@@ -85,19 +86,10 @@ export default {
       this.news_obj = res.data.data
       console.log(res)
     }).catch(err => {
-      console.log(err)
+      if (err.response.status == 404) {
+        this.$router.replace({ name: "notFound" })
+      }
     })
-
-    // request.get("/get/comments", {
-    //   params: {
-    //     news_id: this.$route.params.news_id,
-    //   }
-    // }).then(res => {
-    //   this.comment_list = res.data.data
-    //   console.log(res)
-    // }).catch(err => {
-    //   console.log(err)
-    // })
   }
 }
 </script>
