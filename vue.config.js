@@ -1,3 +1,7 @@
 module.exports = {
-    runtimeCompiler: true
+    runtimeCompiler: true,
+    devServer: {
+        port: 7000,
+    }
 }
+

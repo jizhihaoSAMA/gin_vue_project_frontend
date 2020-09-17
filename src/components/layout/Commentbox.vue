@@ -97,9 +97,9 @@ export default {
   props: ["news_id"],
   methods: {
     changeTip () {
-      if (this.comment.length <= 5) {
+      if (this.post_comment.length <= 5) {
         this.tip = "评论字数不得少于5个"
-      } else if (this.comment.length >= 200) {
+      } else if (this.post_comment.length >= 200) {
         this.tip = "评论字数不得多于200"
       } else {
         this.tip = ""
