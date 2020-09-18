@@ -69,14 +69,14 @@
           <div class="d-flex w-100">
             <b-avatar></b-avatar>
             <p class="mt-2">{{comment.NewsID}}</p>
-            <small class="text-muted ml-auto mt-2">{{ comment.CreatedAt }}</small>
+            <small class="text-muted ml-auto mt-2">{{ comment.Floor }} 楼</small>
           </div>
 
           <p class="mb-1">
             {{ comment.Comment }}
           </p>
 
-          <small class="text-muted">Donec id elit non mi porta.</small>
+          <small class="text-muted">{{ comment.CreatedAt }}</small>
         </b-list-group-item>
       </b-list-group>
     </div>
@@ -112,22 +112,25 @@ export default {
 
       request.post("/post/comment", data).then(res => {
         console.log(res.data)
-      }).catch(err => {
+      }, setTimeout(this.getComment, 1000)).catch(err => {
         alert(err.response.data.msg)
+      })
+    },
+    getComment () {
+      request.get("/get/comments", {
+        params: {
+          news_id: this.$route.params.news_id,
+        }
+      }).then(res => {
+        this.comment_list = res.data.data
+        console.log(res)
+      }).catch(err => {
+        console.log(err)
       })
     }
   },
   mounted () {
-    request.get("/get/comments", {
-      params: {
-        news_id: this.$route.params.news_id,
-      }
-    }).then(res => {
-      this.comment_list = res.data.data
-      console.log(res)
-    }).catch(err => {
-      console.log(err)
-    })
+    this.getComment()
   }
 }
 </script>
