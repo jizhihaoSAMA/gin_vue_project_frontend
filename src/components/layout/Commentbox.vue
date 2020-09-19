@@ -66,17 +66,20 @@
           v-for="(comment,index) in comment_list"
           :key="index"
         >
-          <div class="d-flex w-100">
-            <b-avatar></b-avatar>
-            <p class="mt-2">{{comment.NewsID}}</p>
-            <small class="text-muted ml-auto mt-2">{{ comment.Floor }} 楼</small>
+          <div class="d-flex w-100 justify-content-between">
+
+            <p class="mt-2">
+              <b-avatar></b-avatar> {{comment.username}}
+            </p>
+            <small class="text-muted mt-2">{{ comment.floor }} 楼</small>
+
           </div>
 
           <p class="mb-1">
-            {{ comment.Comment }}
+            {{ comment.comment }}
           </p>
 
-          <small class="text-muted">{{ comment.CreatedAt }}</small>
+          <small class="text-muted">{{ comment.created_at }}</small>
         </b-list-group-item>
       </b-list-group>
     </div>
