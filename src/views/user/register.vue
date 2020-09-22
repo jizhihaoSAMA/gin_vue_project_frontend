@@ -48,6 +48,22 @@
                 密码必须大于等于6位，小于20位
               </b-form-invalid-feedback>
             </b-form-group>
+            <b-form-group label="验证码">
+              <b-form-input
+                class="col-7"
+                style="display:inline-block;"
+                required
+                placeholder="输入验证码"
+                v-model="$v.user.captcha.$model"
+                :state="validateState('captcha')"
+              ></b-form-input>
+              <b-button
+                variant="outline-primary"
+                class="col-4 ml-4"
+                style="bottom:1px;"
+                @click="getCaptcha"
+              >获取验证码</b-button>
+            </b-form-group>
             <b-form-group>
               <b-button
                 variant="outline-primary"
@@ -75,6 +91,7 @@ export default {
         username: "",
         telephone: "",
         password: "",
+        captcha: "",
       },
       validation: null,
     };
@@ -93,6 +110,10 @@ export default {
         minLength: minLength(6),
         maxLength: maxLength(20),
       },
+      captcha: {
+        required,
+        maxLength: maxLength(6),
+      }
     }
   },
   methods: {
@@ -118,11 +139,17 @@ export default {
         })
       })
     },
-    validateState (name) {
-      const { $dirty, $error } = this.$v.user[name];
-      return $dirty ? !$error : null;
-    },
-  }
+    getCaptcha () {
+      if (this.user.telephone != "") {
+
+      }
+    }
+  },
+  validateState (name) {
+    const { $dirty, $error } = this.$v.user[name];
+    return $dirty ? !$error : null;
+  },
+}
 }
 </script>
 
