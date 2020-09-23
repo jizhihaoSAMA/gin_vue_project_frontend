@@ -57,12 +57,16 @@
                 v-model="$v.user.captcha.$model"
                 :state="validateState('captcha')"
               ></b-form-input>
+
               <b-button
                 variant="outline-primary"
                 class="col-4 ml-4"
                 style="bottom:1px;"
                 @click="getCaptcha"
               >获取验证码</b-button>
+              <b-form-invalid-feedback :state="validateState('telephone')">
+                请输入手机号
+              </b-form-invalid-feedback>
             </b-form-group>
             <b-form-group>
               <b-button
@@ -82,7 +86,7 @@
 import { required, minLength, maxLength } from 'vuelidate/lib/validators';
 import CustomValidator from '@/helper/validator';
 import { mapActions } from 'vuex'
-
+import request from '@/utils/request'
 
 export default {
   data () {
@@ -140,16 +144,23 @@ export default {
       })
     },
     getCaptcha () {
-      if (this.user.telephone != "") {
+      if (this.validateState('telephone')) {
+        // 正确请求电话
+        var data = new FormData()
+        data.append('telephone', this.user.telephone)
 
+        request.post("/api/post/getCaptcha").then(res => {
+
+        })
+      } else { // 电话填写栏有问题
+        alert("请检查电话是否输入正确")
       }
-    }
-  },
-  validateState (name) {
-    const { $dirty, $error } = this.$v.user[name];
-    return $dirty ? !$error : null;
-  },
-}
+    },
+    validateState (name) {
+      const { $dirty, $error } = this.$v.user[name];
+      return $dirty ? !$error : null;
+    },
+  }
 }
 </script>
 
