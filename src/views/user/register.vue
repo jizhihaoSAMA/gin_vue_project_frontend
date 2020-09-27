@@ -149,8 +149,10 @@ export default {
         var data = new FormData()
         data.append('telephone', this.user.telephone)
 
-        request.post("/api/post/getCaptcha").then(res => {
-
+        request.post("/post/getCaptcha", data).then(res => {
+          console.log(res)
+        }).catch(err => {
+          console.log(err)
         })
       } else { // 电话填写栏有问题
         alert("请检查电话是否输入正确")
