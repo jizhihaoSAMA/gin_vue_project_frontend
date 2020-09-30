@@ -48,7 +48,10 @@
                 密码必须大于等于6位，小于20位
               </b-form-invalid-feedback>
             </b-form-group>
-            <b-form-group label="验证码">
+            <b-form-group
+              label="验证码"
+              :invalid-feedback="checkCaptcha"
+            >
               <b-form-input
                 class="col-7"
                 style="display:inline-block;"
@@ -57,16 +60,12 @@
                 v-model="$v.user.captcha.$model"
                 :state="validateState('captcha')"
               ></b-form-input>
-
               <b-button
                 variant="outline-primary"
                 class="col-4 ml-4"
                 style="bottom:1px;"
                 @click="getCaptcha"
               >获取验证码</b-button>
-              <b-form-invalid-feedback :state="validateState('telephone')">
-                请输入手机号
-              </b-form-invalid-feedback>
             </b-form-group>
             <b-form-group>
               <b-button
@@ -120,6 +119,19 @@ export default {
       }
     }
   },
+  computed: {
+    checkCaptcha () {
+      if (this.user.captcha.length == 0) {
+        return "验证码不能为空"
+      } else if (this.user.captcha.length >= 7) {
+        return "验证码格式错误"
+      } else if (this.validateState('telephone')) {
+        return "手机号不能为空"
+      } else {
+        return ""
+      }
+    }
+  },
   methods: {
     // 由于已经存在register 方法，所以需要用userRegister修改.
     ...mapActions('userModule', { userRegister: 'register' }),
@@ -155,7 +167,7 @@ export default {
           console.log(err)
         })
       } else { // 电话填写栏有问题
-        alert("请检查电话是否输入正确")
+        alert("请检查手机号是否输入正确")
       }
     },
     validateState (name) {

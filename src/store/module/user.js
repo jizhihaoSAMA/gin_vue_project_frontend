@@ -23,12 +23,17 @@ const userModule = {
         }
     },
     actions: {
-        register (context, { username, telephone, password }) {
+        register (context, { username, telephone, password, captcha }) {
             return new Promise((resolve, reject) => {
-                userService.register({ username, telephone, password }).then(res => {
+                userService.register({ username, telephone, password, captcha }).then(res => {
                     //  保存token
-                    context.commit('SET_TOKEN', res.data.data.token)
-                    return userService.info()
+                    console.log(res)
+                    if (res.data.code == "200") {
+                        context.commit('SET_TOKEN', res.data.data.token)
+                        return userService.info()
+                    } else {
+                        throw new Error('Error')
+                    }
                 }).then(res => {
                     // 保存用户信息
                     context.commit('SET_USERINFO', res.data.data.user)
