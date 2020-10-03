@@ -3,7 +3,7 @@
     <navbar />
     <b-container style="background:white">
       <classification v-if='showClassification' />
-      <router-view></router-view>
+      <router-view :key="key"></router-view>
     </b-container>
   </div>
 </template>
@@ -26,6 +26,9 @@ export default {
       } else {
         return false
       }
+    },
+    key: function () {
+      return this.$route.name !== undefined ? this.$route.name + new Date() : this.$route + new Date()
     }
   },
   components: {

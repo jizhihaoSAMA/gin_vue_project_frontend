@@ -1,10 +1,7 @@
 <template>
   <div>
     <b-row>
-      <b-col
-        col="12"
-        class="my-2"
-      >
+      <b-col class="my-2">
         <label>有关 {{ $route.params.news_type }} 的最新新闻</label>
       </b-col>
     </b-row>
@@ -99,14 +96,17 @@ export default {
     }
   },
   mounted () {
-    request.get("/get/news")
-      .then(res => {
-        this.news_list = res.data.news
-        console.log(res)
-      })
-      .catch(err => {
-        console.log(err)
-      })
+    var news_type = this.$route.params.news_type
+    request.get("/get/news", {
+      params: {
+        "news_type": news_type
+      }
+    }).then(res => {
+      this.news_list = res.data.news
+      console.log(res)
+    }).catch(err => {
+      console.log(err)
+    })
   },
 }
 </script>

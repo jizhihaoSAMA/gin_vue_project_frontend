@@ -11,23 +11,24 @@
               style="text-align:center"
               class="mt-3 mb-5"
             >{{ this.news_obj.title }}</h5>
-            <div v-if="news_obj.type=='normal'">
+            <div v-if="news_obj.layout=='normal' || news_obj.layout == 'dy'">
               <normalNews
                 :content="news_obj.content"
                 :images="news_obj.images"
               />
             </div>
-            <div v-if="news_obj.type=='photoview'">
+            <div v-if="news_obj.layout=='photoview' ">
               <photoviewsNews
                 :content="news_obj.content"
                 :images="news_obj.images"
               />
             </div>
+            <div style="margin-left:auto;width:30%;">
+              来源：<a :href="news_obj.url">{{ news_obj.from }}</a>
+            </div>
             <hr>
             <commentbox :news_id="$route.params.news_id">
             </commentbox>
-            <div id="comment">
-            </div>
           </b-container>
         </b-col>
         <b-col
