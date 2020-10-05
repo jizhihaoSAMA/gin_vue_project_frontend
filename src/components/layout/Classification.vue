@@ -1,7 +1,7 @@
 <template>
   <div
     class=""
-    id=""
+    id="classification"
   >
     <b-navbar>
       <b-navbar-brand class="d-none d-md-block mx-auto">
@@ -53,5 +53,8 @@ export default {
 <style scoped>
 .class_item {
   text-align: center;
+}
+#classification {
+  background: #f5f5f5;
 }
 </style>

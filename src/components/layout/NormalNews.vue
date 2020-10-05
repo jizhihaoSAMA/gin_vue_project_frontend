@@ -19,7 +19,7 @@ export default {
       var r = []
       for (let i = 0, j = 0; i < this.content.length; i++) {
         if (this.content[i] == "&index&") {
-          r[i] = `<img src="${this.images[j]}" style="max-width:100%"/>`
+          r[i] = `<p><img src="${this.images[j]}" style="max-width:100%"/></p>`
           j++
         } else {
           r[i] = `<p>${this.content[i]}</p>`

@@ -1,8 +1,8 @@
 <template>
   <div id='app'>
     <navbar />
+    <classification v-if='showClassification' />
     <b-container style="background:white">
-      <classification v-if='showClassification' />
       <router-view :key="key"></router-view>
     </b-container>
   </div>
@@ -28,7 +28,7 @@ export default {
       }
     },
     key: function () {
-      return this.$route.name !== undefined ? this.$route.name + new Date() : this.$route + new Date()
+      return this.$route.name !== undefined ? this.$route.name + new Date().getTime() : this.$route + new Date().getTime()
     }
   },
   components: {
