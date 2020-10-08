@@ -2,6 +2,7 @@
   <div
     class=""
     id=""
+    @mouseup="getSelected"
   >
     <div
       v-for="(line,index) in zip_content_image"
@@ -9,10 +10,41 @@
       v-html="line"
     >
     </div>
+    <translationBox />
   </div>
 </template>
 <script>
+import request from "@/utils/request"
+import qs from "querystring"
+import translationBox from "@/components/layout/TranslateBox"
+
 export default {
+  data () {
+    return {
+    }
+  },
+  methods: {
+    getSelected () {
+      // 发送 选中信息
+      var select_obj = window.getSelection()
+      var selected_text = select_obj.toString()
+      var postion = select_obj.anchorOffset.valueOf()
+      console.log(postion)
+
+      if (selected_text != "") {
+        request.post('/post/translate', qs.stringify({ selected_text })).then(res => {
+          console.log(res)
+        }).catch(err => {
+          console.log(err)
+        })
+      }
+      // 展示 翻译信息：
+
+    }
+  },
+  components: {
+    translationBox,
+  },
   props: ["content", "images"],
   computed: {
     zip_content_image () {
@@ -27,6 +59,7 @@ export default {
       }
       return r
     }
+
   }
 }
 </script>
