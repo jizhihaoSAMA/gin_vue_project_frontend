@@ -10,7 +10,10 @@
       v-html="line"
     >
     </div>
-    <translationBox />
+    <translationBox
+      :translation="translation"
+      :showBox="showBox"
+    />
   </div>
 </template>
 <script>
@@ -21,6 +24,8 @@ import translationBox from "@/components/layout/TranslateBox"
 export default {
   data () {
     return {
+      translation: '',
+      showBox: false,
     }
   },
   methods: {
@@ -30,15 +35,14 @@ export default {
       var selected_text = select_obj.toString()
       var postion = select_obj.anchorOffset.valueOf()
       console.log(postion)
-
       if (selected_text != "") {
         request.post('/post/translate', qs.stringify({ selected_text })).then(res => {
           console.log(res)
+          this.showBox = true
         }).catch(err => {
           console.log(err)
         })
       }
-      // 展示 翻译信息：
 
     }
   },
@@ -63,3 +67,9 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+translationBox {
+  position: absolute;
+}
+</style>
