@@ -10,10 +10,7 @@
       v-html="line"
     >
     </div>
-    <translationBox
-      :translation="translation"
-      :showBox="showBox"
-    />
+    <translationBox :translation="translation" />
   </div>
 </template>
 <script>
@@ -25,7 +22,7 @@ export default {
   data () {
     return {
       translation: '',
-      showBox: false,
+      showBox: true,
     }
   },
   methods: {
@@ -33,12 +30,13 @@ export default {
       // 发送 选中信息
       var select_obj = window.getSelection()
       var selected_text = select_obj.toString()
-      var postion = select_obj.anchorOffset.valueOf()
-      console.log(postion)
+      // var postion = select_obj.anchorOffset.valueOf()
+      console.log(select_obj.getRangeAt(0).getBoundingClientRect().bottom)
       if (selected_text != "") {
         request.post('/post/translate', qs.stringify({ selected_text })).then(res => {
           console.log(res)
           this.showBox = true
+          this.translation = res.data.Result
         }).catch(err => {
           console.log(err)
         })
@@ -62,14 +60,16 @@ export default {
         }
       }
       return r
-    }
+    },
+    postion () {
+      var r = window.getSelection();
+      // var relative = document.body.parentNode.getBoundingClientRect();
 
+      return [r.bottom]
+    }
   }
 }
 </script>
 
 <style scoped>
-translationBox {
-  position: absolute;
-}
 </style>

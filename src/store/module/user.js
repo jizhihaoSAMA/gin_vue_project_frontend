@@ -7,6 +7,7 @@ const userModule = {
     state: {
         token: storageService.get(storageService.USER_TOKEN),
         userInfo: storageService.get(storageService.USER_INFO) ? JSON.parse(storageService.get(storageService.USER_INFO)) : null,
+
     },
     mutations: {
         SET_TOKEN (state, token) {
@@ -20,7 +21,9 @@ const userModule = {
             storageService.set(storageService.USER_INFO, JSON.stringify(userInfo));
             // 更新state
             state.userInfo = userInfo;
-        }
+        },
+
+
     },
     actions: {
         register (context, { username, telephone, password, captcha }) {

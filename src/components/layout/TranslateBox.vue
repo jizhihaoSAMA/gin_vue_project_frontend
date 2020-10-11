@@ -1,10 +1,10 @@
 <template>
   <div
     class=""
-    id=""
-    v-show="showBox"
+    id="translateBox"
+    v-show="$store.state.userModule.showBox"
   >
-    1234
+    {{ translation }}
   </div>
 </template>
 <script>
@@ -13,6 +13,15 @@ export default {
     return {
     }
   },
-  props: ['translation', 'showBox'],
+  props: ['translation'],
 }
 </script>
+
+<style scoped>
+#translateBox {
+  bottom: 0%;
+  right: 0%;
+  position: fixed;
+  background: red;
+}
+</style>
