@@ -22,7 +22,6 @@ export default {
   data () {
     return {
       translation: '',
-      showBox: true,
     }
   },
   methods: {
@@ -35,7 +34,7 @@ export default {
       if (selected_text != "") {
         request.post('/post/translate', qs.stringify({ selected_text })).then(res => {
           console.log(res)
-          this.showBox = true
+          this.$store.state.showBox = true
           this.translation = res.data.Result
         }).catch(err => {
           console.log(err)

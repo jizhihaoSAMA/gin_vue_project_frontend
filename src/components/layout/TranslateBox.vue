@@ -2,9 +2,16 @@
   <div
     class=""
     id="translateBox"
-    v-show="$store.state.userModule.showBox"
+    v-show="$store.state.showBox"
   >
-    {{ translation }}
+    <b-card title="翻译结果">
+      <b-form-textarea
+        v-model="translation"
+        rows="6"
+        disabled
+      >
+      </b-form-textarea>
+    </b-card>
   </div>
 </template>
 <script>
@@ -20,8 +27,9 @@ export default {
 <style scoped>
 #translateBox {
   bottom: 0%;
-  right: 0%;
+  right: 2%;
   position: fixed;
-  background: red;
+  max-width: 40%;
+  width: 35%;
 }
 </style>
