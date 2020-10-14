@@ -13,7 +13,7 @@
       </b-form-textarea>
     </b-card>
   </div>
-</template>
+</template> 
 <script>
 export default {
   data () {
