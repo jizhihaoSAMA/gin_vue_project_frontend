@@ -9,8 +9,16 @@
           <b-container>
             <h5
               style="text-align:center"
-              class="mt-3 mb-5"
+              class="mt-3 mb-4"
             >{{ this.news_obj.title }}</h5>
+            <div
+              style="font-size:0.5rem;"
+              class="d-flex align-items-center"
+            >
+              <div>来源：<a :href="news_obj.url">{{ news_obj.from }}</a></div>
+              <div>时间：{{ news_obj.time }}</div>
+              <div>浏览量：{{ news_obj.views }} 次</div>
+            </div>
             <div v-if="news_obj.layout=='normal' || news_obj.layout == 'dy'">
               <normalNews
                 :content="news_obj.content"
@@ -23,9 +31,7 @@
                 :images="news_obj.images"
               />
             </div>
-            <div style="margin-left:auto;width:30%;">
-              来源：<a :href="news_obj.url">{{ news_obj.from }}</a>
-            </div>
+
             <hr>
             <commentbox :news_id="$route.params.news_id">
             </commentbox>

@@ -42,6 +42,7 @@
                 <em>{{ userInfo.username }}</em>
               </template>
               <b-dropdown-item href="#">个人主页</b-dropdown-item>
+              <b-dropdown-item href="#">123123</b-dropdown-item>
               <b-dropdown-item @click="logout">注销</b-dropdown-item>
             </b-nav-item-dropdown>
             <b-nav-item
