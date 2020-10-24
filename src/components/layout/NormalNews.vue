@@ -21,7 +21,7 @@ import translationBox from "@/components/layout/TranslateBox"
 export default {
   data () {
     return {
-      translation: '',
+      translation: '选中文字即可翻译噢',
     }
   },
   methods: {

@@ -13,11 +13,11 @@
             >{{ this.news_obj.title }}</h5>
             <div
               style="font-size:0.5rem;"
-              class="d-flex align-items-center"
+              class="col-12 mb-3"
             >
               <div>来源：<a :href="news_obj.url">{{ news_obj.from }}</a></div>
               <div>时间：{{ news_obj.time }}</div>
-              <div>浏览量：{{ news_obj.views }} 次</div>
+              <div>浏览量：{{ format_view_amount }} 次</div>
             </div>
             <div v-if="news_obj.layout=='normal' || news_obj.layout == 'dy'">
               <normalNews
@@ -57,28 +57,37 @@ import request from '@/utils/request'
 import normalNews from '@/components/layout/NormalNews'
 import photoviewsNews from '@/components/layout/PhotoviewNews'
 
+
 export default {
   data () {
     return {
-      news_obj: {},
+      news_obj: { view_amount: 0 },
       toggleText: "发表评论▾",
-      comments: [{
-        user_id: 123,
-        comment: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim.",
-        post_time: "2000-10-10",
-      }, {
-        user_id: 13,
-        comment: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim.",
-        post_time: "2000-11-10",
-      }],
+      // comments: [{
+      //   user_id: 123,
+      //   comment: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim.",
+      //   post_time: "2000-10-10",
+      // }, {
+      //   user_id: 13,
+      //   comment: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim.",
+      //   post_time: "2000-11-10",
+      // }],
       comment_list: [],
     }
   },
-  // methods: {
-  //   notFound () {
-  //     this.$router.replace({ name: "notFound" })
-  //   }
-  // },
+  computed: {
+    format_view_amount () {
+      console.log(this.news_obj)
+      var c = this.news_obj.view_amount
+      if (c >= 1000) {
+        return (c / 1000).toString() + 'k+'
+      } else if (c >= 1000000) {
+        return (c / 1000000).toString() + 'm+'
+      } else {
+        return c.toString()
+      }
+    }
+  },
   components: {
     commentbox,
     normalNews,

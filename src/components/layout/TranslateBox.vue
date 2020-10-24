@@ -1,13 +1,12 @@
 <template>
   <div
-    class=""
+    class="d-sm-none d-md-block"
     id="translateBox"
     v-show="$store.state.showBox"
   >
     <b-card title="翻译结果">
       <b-form-textarea
         v-model="translation"
-        rows="6"
         disabled
       >
       </b-form-textarea>
@@ -30,6 +29,8 @@ export default {
   right: 2%;
   position: fixed;
   max-width: 40%;
+  max-height: 30%;
   width: 35%;
+  z-index: 99;
 }
 </style>
