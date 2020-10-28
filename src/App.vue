@@ -2,9 +2,7 @@
   <div id='app'>
     <navbar />
     <classification v-if='showClassification' />
-    <b-container style="background:white">
-      <router-view :key="key"></router-view>
-    </b-container>
+    <router-view :key="key"></router-view>
   </div>
 </template>
 

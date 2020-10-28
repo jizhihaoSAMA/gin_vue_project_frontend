@@ -1,70 +1,65 @@
 <template>
   <div id="">
-    <b-card bg-variant="light">
-      <b-form-group
-        label-cols="12"
-        label="个人资料"
-        label-size="lg"
-        label-class="pt-0 text-center"
-        class="mb-0"
+    <b-row>
+      <b-card
+        bg-variant="light"
+        no-body
+        class="col-md-3 col-lg-2"
       >
-        <b-form-group
-          label-cols-sm="3"
-          label="ID:"
-          label-align-sm="right"
-          label-for="userID"
+        <b-card-header
+          header-tag="nav"
+          no-body
         >
-          <b-form-input
-            id="userID"
-            readonly
-          ></b-form-input>
-        </b-form-group>
+          <b-nav
+            vertical
+            class="w-35"
+            pills
+          >
+            <b-nav-item
+              href="?page=detail"
+              :active="[undefined, 'detail'].includes($route.query.page)"
+            >详细资料</b-nav-item>
+            <b-nav-item
+              href="?page=icon"
+              :active="$route.query.page == 'icon'"
+            >头像</b-nav-item>
+            <b-nav-item
+              href="?page=security"
+              :active="$route.query.page == 'security'"
+            >账号安全</b-nav-item>
+          </b-nav>
+        </b-card-header>
 
-        <b-form-group
-          label-cols-sm="3"
-          label="用户名:"
-          label-align-sm="right"
-          label-for="username"
-        >
-          <b-form-input id="username"></b-form-input>
-        </b-form-group>
-
-        <b-form-group
-          label-cols-sm="3"
-          label="手机号:"
-          label-align-sm="right"
-          label-for="nested-state"
-        >
-          <b-form-input
-            id="nested-state"
-            readonly
-          ></b-form-input>
-        </b-form-group>
-
-        <b-form-group
-          label-cols-sm="3"
-          label="性别:"
-          label-align-sm="right"
-        >
-          <b-form-radio-group
-            class="pt-2"
-            :options="['男', '女', '保密']"
-          ></b-form-radio-group>
-        </b-form-group>
-        <b-form-group class=" align-items-center">
-          <b-button>保存</b-button>
-          <b-button>重置</b-button>
-        </b-form-group>
-      </b-form-group>
-    </b-card>
+      </b-card>
+      <b-card
+        bg-variant="light"
+        class="col-md-8 col-lg-9"
+      >
+        <detail v-if="[undefined, 'detail'].includes($route.query.page)" />
+        <icon v-if="$route.query.page == 'icon'" />
+        <security v-if="$route.query.page == 'security'" />
+      </b-card>
+    </b-row>
   </div>
 </template>
 <script>
-import { mapState } from 'vuex';
+import { mapState } from 'vuex'
+
+import icon from '@/components/layout/userProfile/UserIcon'
+import security from '@/components/layout/userProfile/UserSecurity'
+import detail from '@/components/layout/userProfile/UserDetailInfo'
+
+
+
 export default {
 
   computed: mapState({
     userInfo: (state) => state.userModule.userInfo,
-  })
+  }),
+  components: {
+    "icon": icon,
+    "security": security,
+    "detail": detail
+  }
 }
 </script>
