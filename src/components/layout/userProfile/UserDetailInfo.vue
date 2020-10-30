@@ -34,14 +34,11 @@
 
         <b-form-group
           label-cols-sm="3"
-          label="手机号:"
+          label="个人说明:"
           label-align-sm="right"
           label-for="nested-state"
         >
-          <b-form-input
-            id="nested-state"
-            readonly
-          ></b-form-input>
+          <b-textarea id="nested-state"></b-textarea>
         </b-form-group>
 
         <b-form-group
@@ -58,10 +55,10 @@
         </b-form-group>
         <b-form-group>
           <b-button
-            class="col-1"
+            class="col-2 col-md-2"
             variant="primary"
           >保存</b-button>
-          <b-button class="offset-2 col-1">重置</b-button>
+          <b-button class="offset-4 col-2 col-md-2 offset-md-2">重置</b-button>
         </b-form-group>
       </b-form-group>
     </b-card-body>

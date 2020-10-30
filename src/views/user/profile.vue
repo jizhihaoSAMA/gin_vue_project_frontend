@@ -4,7 +4,7 @@
       <b-card
         bg-variant="light"
         no-body
-        class="col-md-3 col-lg-2"
+        class="col-3"
       >
         <b-card-header
           header-tag="nav"
@@ -33,7 +33,7 @@
       </b-card>
       <b-card
         bg-variant="light"
-        class="col-md-8 col-lg-9"
+        class="col-9"
       >
         <detail v-if="[undefined, 'detail'].includes($route.query.page)" />
         <icon v-if="$route.query.page == 'icon'" />
