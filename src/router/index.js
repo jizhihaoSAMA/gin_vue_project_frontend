@@ -3,6 +3,7 @@ import VueRouter from "vue-router"
 import userRoutes from "./module/user"
 import newsRoutes from "./module/news"
 import store from "@/store"
+import secRoutes from "./module/security"
 
 Vue.use(VueRouter);
 
@@ -22,6 +23,7 @@ const router = new VueRouter({
         },
         ...userRoutes,
         ...newsRoutes,
+        ...secRoutes,
     ]
 })
 
