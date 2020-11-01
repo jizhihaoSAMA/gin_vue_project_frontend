@@ -7,6 +7,7 @@
     <b-container>
       <b-card
         title="通过以下两种方式修改手机号"
+        class="text-center"
         v-if="$route.query.action == undefined"
       >
         <b-group-list>
