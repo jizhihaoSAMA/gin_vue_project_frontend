@@ -161,7 +161,7 @@ export default {
         var data = new FormData()
         data.append('telephone', this.user.telephone)
 
-        request.post("/post/getCaptcha", data).then(res => {
+        request.post("/post/getCaptcha?for=register", data).then(res => {
           console.log(res)
         }).catch(err => {
           console.log(err)

@@ -38,9 +38,36 @@
           >
             <b-form-input
               id="input-telephone"
+              v-model="bound_telephone"
               required
-              class="col-sm-9"
+              class="col-sm-8"
             ></b-form-input>
+            <b-button
+              style="position:absolute;top:0%;left:68%;"
+              class="col-4 col-md-3"
+              variant="primary"
+            >发送验证码</b-button>
+          </b-form-group>
+          <b-form-group
+            label="验证码:"
+            label-for="input-telephone"
+            label-cols-sm="3"
+            label-align-sm="right"
+          >
+            <b-form-input
+              id="input-captcha"
+              v-model="telephone_captcha"
+              required
+              class="col-sm-8"
+            ></b-form-input>
+          </b-form-group>
+          <b-form-group class="text-center">
+            <b-button variant="primary">确认修改</b-button>
+            <b-button
+              variant="outline-primary"
+              class="ml-5"
+              @click="$router.go(-1)"
+            >返回</b-button>
           </b-form-group>
         </b-form>
       </b-card>
@@ -49,7 +76,14 @@
 </template>
 <script>
 export default {
-
+  data () {
+    return {
+      bound_telephone: null,
+      telephone_captcha: null,
+    }
+  },
+  methods: {
+  }
 }
 </script>
 
