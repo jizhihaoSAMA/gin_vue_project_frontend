@@ -2,6 +2,7 @@ const secRoutes = [
     {
         path: '/security',
         name: 'security',
+        component: { template: `<router-view></router-view>` },
         children: [
             {
                 path: 'change_telephone',
