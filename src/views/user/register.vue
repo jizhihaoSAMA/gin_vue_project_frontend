@@ -148,11 +148,7 @@ export default {
         this.$router.replace({ name: 'profile' })
       }).catch(err => { // 只要状态码不是成功，就会失败
         // 请求失败，让前端响应请求
-        this.$bvToast.toast(err.response.data.msg, {
-          title: '注册失败',
-          variant: 'danger',
-          solid: true,
-        })
+        this.showError(err)
       })
     },
     getCaptcha () {
@@ -164,7 +160,8 @@ export default {
         request.post("/post/getCaptcha?for=register", data).then(res => {
           console.log(res)
         }).catch(err => {
-          console.log(err)
+          this.showError(err)
+
         })
       } else { // 电话填写栏有问题
         alert("请检查手机号是否输入正确")

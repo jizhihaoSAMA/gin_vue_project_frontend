@@ -18,7 +18,23 @@ Vue.use(BootstrapVueIcons)
 Vue.use(Vuelidate)
 
 // Use axious
-Vue.use(VueAxios, axios)
+Vue.use(VueAxios, axios);
+
+Vue.prototype.showError = function (err) {
+  this.$bvToast.toast(err.response.data.msg, {
+    title: '注册失败',
+    variant: 'danger',
+    solid: true,
+  })
+}
+
+Vue.prototype.showCustomError = function (title, msg) {
+  this.$bvToast.toast(msg, {
+    title: title,
+    variant: 'danger',
+    solid: true,
+  })
+}
 
 new Vue({
   // 让路由使用

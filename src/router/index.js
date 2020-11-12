@@ -35,6 +35,7 @@ router.beforeEach((to, from, next) => {
         if (store.state.userModule.token) {
             // 此处应该还要判断token是否有效， 比如是否过期， 需要后台发放token的时候 带上token的有效期
             // 如果token无效， 还需要请求token。
+            console.log(store.state.userModule.token)
             next()
         } else {
             //没有登录，跳转登录页面

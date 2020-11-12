@@ -46,6 +46,7 @@
               style="position:absolute;top:0%;left:68%;"
               class="col-4 col-md-3"
               variant="primary"
+              @click="sendCaptcha"
             >发送验证码</b-button>
           </b-form-group>
           <b-form-group
@@ -62,7 +63,10 @@
             ></b-form-input>
           </b-form-group>
           <b-form-group class="text-center">
-            <b-button variant="primary">确认修改</b-button>
+            <b-button
+              variant="primary"
+              @click="updateInfo"
+            >确认修改</b-button>
             <b-button
               variant="outline-primary"
               class="ml-5"
@@ -75,14 +79,43 @@
   </div>
 </template>
 <script>
+import request from "@/utils/request"
+
 export default {
   data () {
     return {
-      bound_telephone: null,
-      telephone_captcha: null,
+      bound_telephone: "",
+      telephone_captcha: "",
     }
   },
   methods: {
+    sendCaptcha () {
+      var data = new FormData()
+      data.append("userID", this.$store.state.userModule.userInfo.id)
+      data.append("telephone", this.bound_telephone)
+      // console.log(this.$store.state.userModule.userInfo)
+      request.post("post/getCaptcha?for=security", data).then(res => {
+        console.log(res)
+      }).catch(err => {
+        this.showError(err)
+      })
+
+    },
+    updateInfo () {
+      if (this.bound_telephone == "" || this.bound_telephone == "") {
+        this.showCustomError("输入错误", "提交信息有误，请检查输入信息")
+        return
+      }
+      var data = new FormData()
+      data.append("captcha", this.telephone_captcha)
+      data.append("userID", this.$store.state.userModule.userInfo.id)
+      data.append("formTelephone", this.bound_telephone)
+      request.post("post/changeTelephone", data).then(res => {
+        console.log(res)
+      }).catch(err => {
+        this.showError(err)
+      })
+    }
   }
 }
 </script>
