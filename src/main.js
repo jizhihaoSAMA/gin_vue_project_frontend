@@ -22,7 +22,7 @@ Vue.use(VueAxios, axios);
 
 Vue.prototype.showError = function (err) {
   this.$bvToast.toast(err.response.data.msg, {
-    title: '注册失败',
+    title: '操作失败',
     variant: 'danger',
     solid: true,
   })
@@ -32,6 +32,22 @@ Vue.prototype.showCustomError = function (title, msg) {
   this.$bvToast.toast(msg, {
     title: title,
     variant: 'danger',
+    solid: true,
+  })
+}
+
+Vue.prototype.showSuccessInfo = function (res) {
+  this.$bvToast.toast(res.data.msg, {
+    title: '操作成功',
+    variant: 'success',
+    solid: true,
+  })
+}
+
+Vue.prototype.showSuccessCustomInfo = function (title, msg) {
+  this.$bvToast.toast(msg, {
+    title: title,
+    variant: 'success',
     solid: true,
   })
 }

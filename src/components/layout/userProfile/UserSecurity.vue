@@ -12,7 +12,7 @@
         ></b-icon>
         {{ sec.phone ? "您的手机为："+sec.phone: "您还没有保存手机" }}
         <a
-          href="/security/change_telephone"
+          href="/security/bindTelephone"
           style="float:right;"
         >修改手机号</a>
       </b-list-group-item>
@@ -24,7 +24,7 @@
         ></b-icon>
         {{ sec.email ? "您的邮箱为："+sec.email: "您还没有绑定邮件" }}
         <a
-          href="/security/change_email"
+          href="/security/bindEmail"
           style="float:right;"
         >修改邮箱</a>
       </b-list-group-item>

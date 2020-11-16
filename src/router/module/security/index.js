@@ -8,16 +8,16 @@ const secRoutes = [
         },
         children: [
             {
-                path: 'change_telephone',
-                name: 'change_telephone',
+                path: 'bindTelephone',
+                name: 'bindTelephone',
                 component: () => import("@/views/user/security/change_telephone"),
                 meta: {
                     auth: true,
                 },
 
             }, {
-                path: 'change_email',
-                name: 'change_email',
+                path: 'bindEmail',
+                name: 'bindEmail',
                 component: () => import("@/views/user/security/change_email"),
                 meta: {
                     auth: true,
