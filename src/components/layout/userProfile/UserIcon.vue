@@ -32,7 +32,7 @@
       <b-row>
         <b-form-file
           v-model="user_upload_icon"
-          :state="Boolean(file1)"
+          :state="Boolean(user_upload_icon)"
           placeholder="选择一个文件或拖动这里"
           drop-placeholder="拖动到这里"
           class="mt-3"
@@ -46,16 +46,30 @@
           variant="primary"
           class="col-2 mt-4"
           style="margin: auto;"
+          @click="updateIcon"
         >更新头像</b-button>
       </b-row>
     </b-container>
   </div>
 </template>
 <script>
+import request from "@/utils/request"
 export default {
   data () {
     return {
       user_upload_icon: null
+    }
+  },
+  methods: {
+    updateIcon () {
+      var data = new FormData()
+      data.append("updateIcon", this.user_upload_icon)
+      console.log(this.user_upload_icon)
+      request.post("post/userIcon", data).then(res => {
+        console.log(res)
+      }).catch(err => {
+        console.log(err)
+      })
     }
   }
 }
