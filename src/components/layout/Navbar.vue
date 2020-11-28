@@ -11,12 +11,12 @@
           href="#"
           @click="$router.push({name:'index'})"
           class="mx-auto"
-        >哈哈新闻</b-navbar-brand>
+        >News</b-navbar-brand>
 
         <b-nav-form class="mx-auto">
           <b-form-input
             size="sm"
-            class="my-2 my-sm-1 mr-md-1 col-8 col-md-8"
+            class="my-2 my-sm-1 mr-md-1 col-8 col-md-8 "
             placeholder="Search"
             id="search_input"
           ></b-form-input>
@@ -33,7 +33,12 @@
         >
           <!-- Right aligned nav items -->
           <b-navbar-nav class="ml-auto">
+            <b-nav-item>
+              <b-icon icon="bell">
 
+              </b-icon>
+              <b-badge>{{ this.data }}</b-badge>
+            </b-nav-item>
             <b-nav-item-dropdown
               right
               v-if="userInfo"
@@ -83,6 +88,7 @@ export default {
 <style scoped>
 #search_input {
   width: 80%;
+  margin-left: 10px;
 }
 form {
   width: 100%;

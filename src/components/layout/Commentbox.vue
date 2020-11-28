@@ -109,15 +109,19 @@ export default {
       }
     },
     sendComment () {
-      var data = new FormData()
-      data.append("news_id", this.news_id)
-      data.append("comment", this.post_comment)
+      if (this.post_comment && this.tip == "") {
+        var data = new FormData()
+        data.append("news_id", this.news_id)
+        data.append("comment", this.post_comment)
 
-      request.post("/post/comment", data).then(res => {
-        console.log(res.data)
-      }, setTimeout(this.getComment, 1000)).catch(err => {
-        alert(err.response.data.msg)
-      })
+        request.post("/post/comment", data).then(res => {
+          console.log(res.data)
+        }, setTimeout(this.getComment, 1000)).catch(err => {
+          alert(err.response.data.msg)
+        })
+      } else {
+        this.showCustomError("发送失败", "请检查输入")
+      }
     },
     getComment () {
       request.get("/get/comments", {
