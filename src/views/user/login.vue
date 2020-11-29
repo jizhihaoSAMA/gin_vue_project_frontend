@@ -96,10 +96,10 @@ export default {
         return;
       }
       // 发送请求
-      this.userLogin(this.user).then(() => {
+      this.userLogin(this.user).then(res => {
         // 跳转主页
-        console.log("login")
         this.$router.replace({ name: 'profile' })
+        console.log(res.data)
       }).catch(err => { // 只要状态码不是成功，就会失败
         // 请求失败，让前端响应请求
         this.$bvToast.toast(err.response.data.msg, {
