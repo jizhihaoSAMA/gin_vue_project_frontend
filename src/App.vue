@@ -2,7 +2,10 @@
   <div id='app'>
     <navbar />
     <classification v-if='showClassification' />
-    <router-view :key="key"></router-view>
+    <router-view
+      :key="key"
+      v-if="isRouterAlive"
+    ></router-view>
   </div>
 </template>
 
@@ -12,8 +15,22 @@ import classification from '@/components/layout/Classification'
 
 export default {
   name: 'App',
+  provide () {
+    return {
+      reload: this.reload
+    }
+  },
+  methods: {
+    reload () {
+      this.isRouterAlive = false
+      this.$nextTick(function () {
+        this.isRouterAlive = true
+      })
+    }
+  },
   data () {
     return {
+      isRouterAlive: true,
       classificationBlackList: ['login', 'register', 'profile']
     }
   },

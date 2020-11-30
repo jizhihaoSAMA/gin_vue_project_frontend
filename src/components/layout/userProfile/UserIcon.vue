@@ -21,7 +21,7 @@
           style="border-right: 1px solid grey;"
         >
           <b-avatar
-            src='http://localhost:7000/img/haosamaglasses.dbe5ca10.png'
+            :src="this.BACKEND+'/userIcon/userID_'+$store.state.userModule.userInfo.id+'.png'"
             size="10rem"
           ></b-avatar>
         </div>
@@ -55,6 +55,7 @@
 <script>
 import request from "@/utils/request"
 export default {
+  inject: ['reload'],
   data () {
     return {
       user_upload_icon: null
@@ -64,9 +65,11 @@ export default {
     updateIcon () {
       var data = new FormData()
       data.append("updateIcon", this.user_upload_icon)
-      console.log(this.user_upload_icon)
       request.post("post/userIcon", data).then(res => {
         console.log(res)
+        this.showSuccessInfo(res)
+        setTimeout(this.reload, 1000)
+
       }).catch(err => {
         console.log(err)
       })

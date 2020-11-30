@@ -20,6 +20,8 @@ Vue.use(Vuelidate)
 // Use axious
 Vue.use(VueAxios, axios);
 
+Vue.prototype.BACKEND = "http://localhost:8081"
+
 Vue.prototype.showError = function (err) {
   this.$bvToast.toast(err.response.data.msg, {
     title: '操作失败',

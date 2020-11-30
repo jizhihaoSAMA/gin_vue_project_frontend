@@ -37,7 +37,7 @@
               <b-icon icon="bell">
 
               </b-icon>
-              <b-badge>{{ this.data }}</b-badge>
+              <b-badge>{{ unreadmessage }}</b-badge>
             </b-nav-item>
             <b-nav-item-dropdown
               right
@@ -69,6 +69,11 @@
 import { mapState, mapActions } from 'vuex';
 
 export default {
+  data () {
+    return {
+      unreadmessage: 1,
+    }
+  },
   computed: mapState({
     userInfo: (state) => state.userModule.userInfo,
   }),
