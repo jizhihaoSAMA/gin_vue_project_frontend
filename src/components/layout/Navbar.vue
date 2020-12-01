@@ -37,7 +37,7 @@
               <b-icon icon="bell">
 
               </b-icon>
-              <b-badge>{{ unreadmessage }}</b-badge>
+              <b-badge v-if="unreadmessage">{{ unreadmessage }}</b-badge>
             </b-nav-item>
             <b-nav-item-dropdown
               right
@@ -66,12 +66,13 @@
   </div>
 </template>
 <script>
-import { mapState, mapActions } from 'vuex';
+import { mapState, mapActions } from 'vuex'
+import request from '@/utils/request'
 
 export default {
   data () {
     return {
-      unreadmessage: 1,
+      unreadmessage: 0,
     }
   },
   computed: mapState({
@@ -83,7 +84,16 @@ export default {
     logout () {
       this.$router.push({ name: "index" })
       this.userLogout()
+    },
+    getUnreadMessage () {
+      request.get("/test").then(res => {
+        this.unreadmessage = res.data.unread
+      })
+      setTimeout(this.getUnreadMessage, 3000)
     }
+  },
+  mounted () {
+    setTimeout(this.getUnreadMessage, 10)
   }
 
 
