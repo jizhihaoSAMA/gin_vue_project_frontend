@@ -1,7 +1,7 @@
 <template>
   <div
     class=""
-    id=""
+    id="commentBox"
   >
     <div style="font-size:18px;display:inline-block;">评论</div>
     <div style="float:right">
@@ -66,20 +66,28 @@
           v-for="(comment,index) in comment_list"
           :key="index"
         >
-          <div class="d-flex w-100 justify-content-between">
+          <div>
+            <div class="d-flex w-100 justify-content-between">
 
-            <p class="mt-2">
-              <b-avatar></b-avatar> {{comment.username}}
+              <p class="mt-2">
+                <b-avatar></b-avatar> {{comment.username}}
+              </p>
+              <small class="text-muted mt-2">{{ comment.floor }} 楼</small>
+
+            </div>
+
+            <p class="mb-1">
+              {{ comment.comment }}
             </p>
-            <small class="text-muted mt-2">{{ comment.floor }} 楼</small>
 
+            <div>
+              <small class="text-muted">{{ convertedTimestamp(comment.created_at) }}</small>
+              <small
+                style="float:right"
+                class="text-muted"
+              >引用回复者</small>
+            </div>
           </div>
-
-          <p class="mb-1">
-            {{ comment.comment }}
-          </p>
-
-          <small class="text-muted">{{ comment.created_at }}</small>
         </b-list-group-item>
       </b-list-group>
     </div>
@@ -95,6 +103,16 @@ export default {
       comment_list: [],
       tip: '',
       showCommentBox: false,
+    }
+  },
+  computed: {
+    convertedTimestamp () {
+      return function (t) {
+        var parsed_time = new Date(t)
+        // var stringTime = "2014-07-10 10:21:12";
+        // var timestamp2 = parsed_time.parse(new Date(stringTime));
+        return parsed_time.toLocaleString()
+      }
     }
   },
   props: ["news_id"],
@@ -115,8 +133,9 @@ export default {
         data.append("comment", this.post_comment)
 
         request.post("/post/comment", data).then(res => {
-          console.log(res.data)
-        }, setTimeout(this.getComment, 1000)).catch(err => {
+          this.showSuccessInfo(res)
+          this.getComment()
+        }).catch(err => {
           alert(err.response.data.msg)
         })
       } else {

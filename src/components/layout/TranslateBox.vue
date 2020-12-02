@@ -25,6 +25,7 @@ export default {
 
 <style scoped>
 #translateBox {
+  display: none !important;
   bottom: 0%;
   right: 2%;
   position: fixed;

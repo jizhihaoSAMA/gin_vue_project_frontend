@@ -6,7 +6,7 @@
           cols="12"
           md="8"
         >
-          <b-container>
+          <b-container style="background:white;border-radius:10px;padding:20px;">
             <h5
               style="text-align:center"
               class="mt-3 mb-4"
