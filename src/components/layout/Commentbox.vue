@@ -69,10 +69,10 @@
           <div>
             <div class="d-flex w-100 justify-content-between">
 
-              <p class="mt-2">
+              <p>
                 <b-avatar></b-avatar> {{comment.username}}
               </p>
-              <small class="text-muted mt-2">{{ comment.floor }} 楼</small>
+              <small class="text-muted">{{ comment.floor }} 楼</small>
 
             </div>
 
@@ -82,10 +82,10 @@
 
             <div>
               <small class="text-muted">{{ convertedTimestamp(comment.created_at) }}</small>
-              <small
+              <!-- <small
                 style="float:right"
                 class="text-muted"
-              >引用回复者</small>
+              >引用回复者</small> -->
             </div>
           </div>
         </b-list-group-item>

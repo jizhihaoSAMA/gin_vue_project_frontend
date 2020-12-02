@@ -19,6 +19,7 @@
         >
           <b-form-input
             id="userID"
+            :value="getUserID"
             readonly
           ></b-form-input>
         </b-form-group>
@@ -29,7 +30,11 @@
           label-align-sm="right"
           label-for="username"
         >
-          <b-form-input id="username"></b-form-input>
+          <b-form-input
+            id="username"
+            :value="getUsername"
+            v-model="username"
+          ></b-form-input>
         </b-form-group>
 
         <b-form-group
@@ -38,7 +43,11 @@
           label-align-sm="right"
           label-for="nested-state"
         >
-          <b-textarea id="nested-state"></b-textarea>
+          <b-textarea
+            id="nested-state"
+            :value="getUserDetail"
+            v-model="detail"
+          ></b-textarea>
         </b-form-group>
 
         <b-form-group
@@ -47,6 +56,7 @@
           label-align-sm="right"
           class="left-align"
           style="text-align:left;"
+          v-model="$store.state.userModule.userInfo.gender"
         >
           <b-form-radio-group
             class="pt-2"
@@ -57,6 +67,7 @@
           <b-button
             class="col-2 col-md-2"
             variant="primary"
+            @click="update"
           >保存</b-button>
           <b-button class="offset-4 col-2 col-md-2 offset-md-2">重置</b-button>
         </b-form-group>
@@ -65,7 +76,24 @@
   </div>
 </template>
 <script>
-export default {
+import request from '@utils/request'
 
+export default {
+  data () {
+    return {
+      username: this.$store.state.userModule.userInfo.username,
+      detail: this.$store.state.userModule.userInfo.detail,
+    }
+  },
+  methods: {
+    update () {
+      request.get("post")
+    }
+  },
+  computed: {
+    getUserID () {
+      return this.$store.state.userModule.userInfo.id
+    },
+  }
 }
 </script>
