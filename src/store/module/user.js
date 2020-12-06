@@ -26,11 +26,28 @@ const userModule = {
 
     },
     actions: {
+        updateToken (context) {
+            return new Promise((resolve, reject) => {
+                userService.updateToken().then(res => {
+                    console.log(res)
+                    if (res.data.code == '200') {
+                        context.commit('SET_TOKEN', res.data.data.token)
+                        return userService.info()
+                    } else {
+                        throw new Error("Can't update token")
+                    }
+                }).then(res => {
+                    context.commit('SET_USERINFO', res.data.data.user)
+                    resolve(res)
+                }).catch(err => {
+                    reject(err)
+                })
+            })
+        },
         register (context, { username, telephone, password, captcha }) {
             return new Promise((resolve, reject) => {
                 userService.register({ username, telephone, password, captcha }).then(res => {
                     //  保存token
-                    console.log(res)
                     if (res.data.code == "200") {
                         context.commit('SET_TOKEN', res.data.data.token)
                         return userService.info()

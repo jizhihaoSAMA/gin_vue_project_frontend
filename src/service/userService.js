@@ -15,8 +15,14 @@ const info = () => {
     return request.get('/auth/info');
 }
 
+// 更新token
+const updateToken = () => {
+    return request.get('/auth/updateToken');
+}
+
 export default {
     login,
     register,
     info,
+    updateToken,
 }

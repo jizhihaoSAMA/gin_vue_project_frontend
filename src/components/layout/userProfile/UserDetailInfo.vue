@@ -32,7 +32,6 @@
         >
           <b-form-input
             id="username"
-            :value="getUsername"
             v-model="username"
           ></b-form-input>
         </b-form-group>
@@ -45,24 +44,10 @@
         >
           <b-textarea
             id="nested-state"
-            :value="getUserDetail"
             v-model="detail"
           ></b-textarea>
         </b-form-group>
 
-        <b-form-group
-          label-cols-sm="3"
-          label="性别:"
-          label-align-sm="right"
-          class="left-align"
-          style="text-align:left;"
-          v-model="$store.state.userModule.userInfo.gender"
-        >
-          <b-form-radio-group
-            class="pt-2"
-            :options="['男', '女', '保密']"
-          ></b-form-radio-group>
-        </b-form-group>
         <b-form-group>
           <b-button
             class="col-2 col-md-2"
@@ -76,7 +61,8 @@
   </div>
 </template>
 <script>
-import request from '@utils/request'
+import request from '@/utils/request'
+import { mapActions } from 'vuex'
 
 export default {
   data () {
@@ -86,8 +72,29 @@ export default {
     }
   },
   methods: {
+    ...mapActions('userModule', { userLogin: 'login' }),
+
     update () {
-      request.get("post")
+      var data = new FormData()
+      data.append("updatedUsername", this.username)
+      data.append("updatedDetail", this.detail)
+      // 刷新页面以修改资料 
+      request.post("post/updateInfo", data).then(res => {
+        this.showSuccessInfo(res)
+        this.userLogin(this.user).then(res => {
+          // 跳转主页
+          console.log(res)
+        }).catch(err => { // 只要状态码不是成功，就会失败
+          // 请求失败，让前端响应请求
+          this.$bvToast.toast(err.response.data.msg, {
+            title: '登录失败',
+            variant: 'danger',
+            solid: true,
+          })
+        })
+      }).catch(err => {
+        this.showError(err)
+      })
     }
   },
   computed: {

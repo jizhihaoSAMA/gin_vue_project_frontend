@@ -89,7 +89,6 @@ export default {
       request.get("/test").then(res => {
         this.unreadmessage = res.data.unread
       })
-      setTimeout(this.getUnreadMessage, 3000)
     }
   },
   mounted () {
