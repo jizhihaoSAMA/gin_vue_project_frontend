@@ -33,9 +33,12 @@
         >
           <!-- Right aligned nav items -->
           <b-navbar-nav class="ml-auto">
-            <b-nav-item>
-              <b-icon icon="bell">
-
+            <b-nav-item v-if="userInfo">
+              <b-icon
+                icon="bell"
+                @click="showMessage"
+                
+              >
               </b-icon>
               <b-badge v-if="unreadmessage">{{ unreadmessage }}</b-badge>
             </b-nav-item>
@@ -43,6 +46,7 @@
               right
               v-if="userInfo"
             >
+
               <template v-slot:button-content>
                 <em>{{ userInfo.username }}</em>
               </template>
@@ -89,6 +93,9 @@ export default {
       request.get("/test").then(res => {
         this.unreadmessage = res.data.unread
       })
+    },
+    showMessage () {
+
     }
   },
   mounted () {

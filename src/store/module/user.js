@@ -29,7 +29,6 @@ const userModule = {
         updateToken (context) {
             return new Promise((resolve, reject) => {
                 userService.updateToken().then(res => {
-                    console.log(res)
                     if (res.data.code == '200') {
                         context.commit('SET_TOKEN', res.data.data.token)
                         return userService.info()

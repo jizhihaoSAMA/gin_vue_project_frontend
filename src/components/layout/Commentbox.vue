@@ -70,7 +70,9 @@
             <div class="d-flex w-100 justify-content-between">
 
               <p>
-                <b-avatar></b-avatar> {{comment.username}}
+                <b-avatar :src="getIcon(comment.user_id)"/>
+                
+               {{comment.username}}
               </p>
               <small class="text-muted">{{ comment.floor }} 楼</small>
 
@@ -82,10 +84,14 @@
 
             <div>
               <small class="text-muted">{{ convertedTimestamp(comment.created_at) }}</small>
-              <!-- <small
+              <div style="float:right">
+                <b-icon-hand-thumbs-up @click="console.log"></b-icon-hand-thumbs-up> {{11}}
+                <b-icon-hand-thumbs-down></b-icon-hand-thumbs-down> {{20}}
+              <b-button
                 style="float:right"
-                class="text-muted"
-              >引用回复者</small> -->
+                size="sm"     
+              >引用回复者</b-button>
+              </div>
             </div>
           </div>
         </b-list-group-item>
@@ -99,6 +105,7 @@ import request from '@/utils/request'
 export default {
   data () {
     return {
+      BACKEND: "http://localhost:8081",
       post_comment: '',
       comment_list: [],
       tip: '',
@@ -149,10 +156,12 @@ export default {
         }
       }).then(res => {
         this.comment_list = res.data.data
-        console.log(res)
       }).catch(err => {
-        console.log(err)
+        this.showError(err)
       })
+    },
+    getIcon(id){
+      return this.BACKEND+'/userIcon/userID_'+id+'.png'
     }
   },
   mounted () {

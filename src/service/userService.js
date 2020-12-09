@@ -12,6 +12,7 @@ const login = ({ telephone, password }) => {
 }
 
 const info = () => {
+    console.log("info has been called")
     return request.get('/auth/info');
 }
 

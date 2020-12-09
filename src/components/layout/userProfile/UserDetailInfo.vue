@@ -72,7 +72,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions('userModule', { userLogin: 'login' }),
+    ...mapActions('userModule', ['updateToken']),
 
     update () {
       var data = new FormData()
@@ -81,16 +81,9 @@ export default {
       // 刷新页面以修改资料 
       request.post("post/updateInfo", data).then(res => {
         this.showSuccessInfo(res)
-        this.userLogin(this.user).then(res => {
-          // 跳转主页
-          console.log(res)
-        }).catch(err => { // 只要状态码不是成功，就会失败
-          // 请求失败，让前端响应请求
-          this.$bvToast.toast(err.response.data.msg, {
-            title: '登录失败',
-            variant: 'danger',
-            solid: true,
-          })
+        //更新token
+        this.updateToken().then(() => {
+          console.log("in Detail Info")
         })
       }).catch(err => {
         this.showError(err)
