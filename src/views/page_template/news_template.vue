@@ -77,7 +77,6 @@ export default {
   },
   computed: {
     format_view_amount () {
-      console.log(this.news_obj)
       var c = this.news_obj.view_amount
       if (c >= 1000) {
         return (c / 1000).toString() + 'k+'
@@ -100,7 +99,6 @@ export default {
       }
     }).then(res => {
       this.news_obj = res.data.data
-      console.log(res)
     }).catch(err => {
       if (err.response.status == 404) {
         this.$router.replace({ name: "notFound" })

@@ -65,14 +65,15 @@
           class="flex-column align-items-start"
           v-for="(comment,index) in comment_list"
           :key="index"
+          :id="'comment_' + comment.id"
         >
           <div>
             <div class="d-flex w-100 justify-content-between">
 
               <p>
-                <b-avatar :src="getIcon(comment.user_id)"/>
-                
-               {{comment.username}}
+                <b-avatar :src="getIcon(comment.user_id)" />
+
+                {{comment.username}}
               </p>
               <small class="text-muted">{{ comment.floor }} 楼</small>
 
@@ -82,17 +83,52 @@
               {{ comment.comment }}
             </p>
 
-            <div>
-              <small class="text-muted">{{ convertedTimestamp(comment.created_at) }}</small>
-              <div style="float:right">
-                <b-icon-hand-thumbs-up @click="console.log"></b-icon-hand-thumbs-up> {{11}}
-                <b-icon-hand-thumbs-down></b-icon-hand-thumbs-down> {{20}}
-              <b-button
-                style="float:right"
-                size="sm"     
-              >引用回复者</b-button>
-              </div>
-            </div>
+            <b-row no-gutters>
+              <b-col
+                cols="5"
+                lg="4"
+              >
+                <small class="text-muted">{{ convertedTimestamp(comment.created_at) }}</small>
+              </b-col>
+              <b-col cols="3">
+                <span>
+                  <b-icon-hand-thumbs-up
+                    :variant="comment.vote_status == 1? 'primary': ''"
+                    @click="upvote(comment.id, index)"
+                    style="cursor: pointer;"
+                  ></b-icon-hand-thumbs-up><span
+                    class="text-muted"
+                    style="font-size:9pt;margin-right: 15px;"
+                  > {{ comment.upvote }}</span>
+                  <b-icon-hand-thumbs-down
+                    :variant="comment.vote_status == -1? 'primary': ''"
+                    @click="downvote(comment.id, index)"
+                    style="cursor: pointer;"
+                  ></b-icon-hand-thumbs-down><span
+                    class="text-muted"
+                    style="font-size:9pt;"
+                  > {{ comment.downvote }}</span>
+                </span>
+              </b-col>
+              <b-col
+                cols="3"
+                offset="1"
+                offset-lg="2"
+              >
+                <!-- <b-button
+                  @click="upvote(comment.id)"
+                  variant="link"
+                  class="text-decoration-none"
+                > -->
+
+                <!-- </b-button> -->
+                <b-button
+                  variant="link"
+                  size="sm"
+                  style="float:right; padding: 0px;"
+                >回 复</b-button>
+              </b-col>
+            </b-row>
           </div>
         </b-list-group-item>
       </b-list-group>
@@ -124,6 +160,29 @@ export default {
   },
   props: ["news_id"],
   methods: {
+    upvote (comment_id, index) {
+      var data = new FormData()
+      data.append("from_user_id", this.$store.state.userModule.userInfo.id)
+      data.append("target_comment_id", comment_id)
+      data.append("status", this.comment_list[index].vote_status == 1 ? 0 : 1)
+      console.log(this.comment_list[index].vote_status == 1 ? 0 : 1)
+      request.post("post/voteOnComment", data).then(() => {
+        this.getComment()
+      }).catch(err => {
+        console.log(err.response)
+      })
+    },
+    downvote (comment_id, index) {
+      var data = new FormData()
+      data.append("from_user_id", this.$store.state.userModule.userInfo.id)
+      data.append("target_comment_id", comment_id)
+      data.append("status", this.comment_list[index].vote_status == -1 ? 0 : -1)
+      request.post("post/voteOnComment", data).then(() => {
+        this.getComment()
+      }).catch(err => {
+        console.log(err.response)
+      })
+    },
     changeTip () {
       if (this.post_comment.length <= 5) {
         this.tip = "评论字数不得少于5个"
@@ -155,13 +214,14 @@ export default {
           news_id: this.$route.params.news_id,
         }
       }).then(res => {
-        this.comment_list = res.data.data
+        console.log(res)
+        this.comment_list = res.data.data.comments
       }).catch(err => {
         this.showError(err)
       })
     },
-    getIcon(id){
-      return this.BACKEND+'/userIcon/userID_'+id+'.png'
+    getIcon (id) {
+      return this.BACKEND + '/userIcon/userID_' + id + '.png'
     }
   },
   mounted () {
