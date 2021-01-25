@@ -18,14 +18,14 @@
       v-model="showCommentBox"
       class="mt-2"
     >
-      <b-card>
+      <b-card id="reply_box">
         <p class="card-text">你想和大家说什么：</p>
         <form>
           <b-textarea
             rows="4"
             v-model="post_comment"
             :state="post_comment.length <= 200 && post_comment.length > 5"
-            placeholder="发布和善内容"
+            :placeholder="this.mention_user_tip || '发布和善内容哟~'"
             @input="changeTip"
           ></b-textarea>
           <b-row>
@@ -115,17 +115,11 @@
                 offset="1"
                 offset-lg="2"
               >
-                <!-- <b-button
-                  @click="upvote(comment.id)"
-                  variant="link"
-                  class="text-decoration-none"
-                > -->
-
-                <!-- </b-button> -->
                 <b-button
                   variant="link"
                   size="sm"
                   style="float:right; padding: 0px;"
+                  @click="reply_to_user(comment.user_id, comment.username, comment.comment)"
                 >回 复</b-button>
               </b-col>
             </b-row>
@@ -146,27 +140,31 @@ export default {
       comment_list: [],
       tip: '',
       showCommentBox: false,
+      mention_user_tip: ""
     }
   },
   computed: {
     convertedTimestamp () {
       return function (t) {
         var parsed_time = new Date(t)
-        // var stringTime = "2014-07-10 10:21:12";
-        // var timestamp2 = parsed_time.parse(new Date(stringTime));
         return parsed_time.toLocaleString()
       }
     }
   },
   props: ["news_id"],
   methods: {
+    reply_to_user (user_id, username, comment) {
+      this.mention_user_tip = '回复@' + username + '  ：' + comment
+      document.location.hash("#reply_box")
+      console.log(user_id, username)
+    },
     upvote (comment_id, index) {
       var data = new FormData()
       data.append("from_user_id", this.$store.state.userModule.userInfo.id)
       data.append("target_comment_id", comment_id)
       data.append("status", this.comment_list[index].vote_status == 1 ? 0 : 1)
-      console.log(this.comment_list[index].vote_status == 1 ? 0 : 1)
-      request.post("post/voteOnComment", data).then(() => {
+      request.post("post/voteOnComment", data).then(res => {
+        this.showSuccessInfo(res)
         this.getComment()
       }).catch(err => {
         console.log(err.response)
@@ -177,7 +175,8 @@ export default {
       data.append("from_user_id", this.$store.state.userModule.userInfo.id)
       data.append("target_comment_id", comment_id)
       data.append("status", this.comment_list[index].vote_status == -1 ? 0 : -1)
-      request.post("post/voteOnComment", data).then(() => {
+      request.post("post/voteOnComment", data).then(res => {
+        this.showSuccessInfo(res)
         this.getComment()
       }).catch(err => {
         console.log(err.response)
