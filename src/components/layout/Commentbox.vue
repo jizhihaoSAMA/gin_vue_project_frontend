@@ -1,12 +1,8 @@
 <template>
-  <div
-    class=""
-    id="commentBox"
-  >
+  <div class="">
     <div style="font-size:18px;display:inline-block;">评论</div>
     <div style="float:right">
       <b-button
-        aria-controls="commentbox"
         size="sm"
         variant="outline-secondary"
         @click="showCommentBox = !showCommentBox"
@@ -37,11 +33,22 @@
               <b-icon-emoji-smile />
             </b-col>
             <b-col
-              cols="5"
+              cols="4"
               style="font-size: 0.8rem"
               class="ml-auto my-auto"
             >
               <div style="color:red;">{{ tip }}</div>
+            </b-col>
+            <b-col cols="3">
+              <b-button
+                class="w-100 h-100"
+                variant="link"
+                v-show="target_comment_id"
+                @click="()=>{
+                  target_comment_id = null
+                  mention_user_tip = '发布和善内容哟~'
+                }"
+              >取消回复</b-button>
             </b-col>
             <b-col
               cols="2"
@@ -140,7 +147,8 @@ export default {
       comment_list: [],
       tip: '',
       showCommentBox: false,
-      mention_user_tip: ""
+      mention_user_tip: "",
+      target_comment_id: null
     }
   },
   computed: {
@@ -153,10 +161,14 @@ export default {
   },
   props: ["news_id"],
   methods: {
-    reply_to_user (user_id, username, comment) {
+    reply_to_user (comment_id, username, comment) {
+      this.showCommentBox = true
       this.mention_user_tip = '回复@' + username + '  ：' + comment
-      document.location.hash("#reply_box")
-      console.log(user_id, username)
+      // 不设置延时无法跳转
+      setTimeout(() => {
+        document.querySelector("#reply_box").scrollIntoView({ behavior: 'smooth' })
+      }, 50)
+      this.target_comment_id = comment_id
     },
     upvote (comment_id, index) {
       var data = new FormData()
@@ -185,8 +197,8 @@ export default {
     changeTip () {
       if (this.post_comment.length <= 5) {
         this.tip = "评论字数不得少于5个"
-      } else if (this.post_comment.length >= 200) {
-        this.tip = "评论字数不得多于200"
+      } else if (this.post_comment.length >= 50) {
+        this.tip = "评论字数不得多于50"
       } else {
         this.tip = ""
       }
@@ -196,12 +208,12 @@ export default {
         var data = new FormData()
         data.append("news_id", this.news_id)
         data.append("comment", this.post_comment)
-
+        data.append("target_comment_id", this.target_comment_id)
         request.post("/post/comment", data).then(res => {
           this.showSuccessInfo(res)
           this.getComment()
         }).catch(err => {
-          alert(err.response.data.msg)
+          this.showCustomError("发送失败", err.response.data.msg)
         })
       } else {
         this.showCustomError("发送失败", "请检查输入")

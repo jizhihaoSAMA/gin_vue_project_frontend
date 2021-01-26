@@ -62,7 +62,6 @@ export default {
   data () {
     return {
       news_obj: { view_amount: 0 },
-      toggleText: "发表评论▾",
       // comments: [{
       //   user_id: 123,
       //   comment: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim.",
