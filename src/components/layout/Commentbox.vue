@@ -45,7 +45,7 @@
                 variant="link"
                 v-show="target_comment_id"
                 @click="()=>{
-                  target_comment_id = null
+                  target_comment_id = 0
                   mention_user_tip = '发布和善内容哟~'
                 }"
               >取消回复</b-button>
@@ -66,7 +66,10 @@
         </form>
       </b-card>
     </b-collapse>
-    <div class="mt-3">
+    <div
+      class="mt-3"
+      style="border-color:black;"
+    >
       <b-list-group>
         <b-list-group-item
           class="flex-column align-items-start"
@@ -86,6 +89,18 @@
 
             </div>
 
+            <b-card
+              v-if="comment.target_comment_user_id"
+              class="target_comment mb-2"
+            >
+              <b-avatar
+                :href="'/user/'+comment.target_comment_user_id"
+                :src="getIcon(comment.target_comment_user_id)"
+              ></b-avatar>
+              {{ comment.target_comment_username}}
+              <hr>
+              {{ comment.target_comment_content }}
+            </b-card>
             <p class="mb-1">
               {{ comment.comment }}
             </p>
@@ -148,7 +163,7 @@ export default {
       tip: '',
       showCommentBox: false,
       mention_user_tip: "",
-      target_comment_id: null
+      target_comment_id: 0
     }
   },
   computed: {
@@ -240,3 +255,9 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.target_comment {
+  border-color: black;
+}
+</style>
