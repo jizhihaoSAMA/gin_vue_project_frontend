@@ -8,7 +8,9 @@ import Vue from 'vue';
 import App from './App.vue';
 import router from './router';
 import store from './store'
-// Vue.config.productionTip = false;
+
+
+Vue.config.productionTip = false;
 
 // Use Bootstrap
 Vue.use(BootstrapVue)
@@ -20,7 +22,7 @@ Vue.use(Vuelidate)
 // Use axious
 Vue.use(VueAxios, axios);
 
-Vue.prototype.BACKEND = "http://localhost:8081"
+Vue.prototype.BACKEND = process.env.VUE_APP_BACKEND
 
 Vue.prototype.showError = function (err) {
   this.$bvToast.toast(err.response.data.msg, {

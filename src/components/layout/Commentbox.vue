@@ -157,7 +157,6 @@ import request from '@/utils/request'
 export default {
   data () {
     return {
-      BACKEND: "http://localhost:8081",
       post_comment: '',
       comment_list: [],
       tip: '',
