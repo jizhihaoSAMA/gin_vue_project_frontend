@@ -81,9 +81,16 @@
             <div class="d-flex w-100 justify-content-between">
 
               <p>
-                <b-avatar :src="getIcon(comment.user_id)" />
-
-                {{comment.username}}
+                <b-avatar
+                  :src="getIcon(comment.user_id)"
+                  :href="'/user/'+ comment.user_id"
+                />
+                <b-button
+                  variant="link"
+                  :href="'/user/'+ comment.user_id"
+                  class="text-decoration-none"
+                  style="color:black;"
+                >{{comment.username}}</b-button>
               </p>
               <small class="text-muted">{{ comment.floor }} 楼</small>
 
@@ -118,15 +125,18 @@
                     :variant="comment.vote_status == 1? 'primary': ''"
                     @click="upvote(comment.id, index)"
                     style="cursor: pointer;"
-                  ></b-icon-hand-thumbs-up><span
+                  ></b-icon-hand-thumbs-up>
+                  <span
                     class="text-muted"
                     style="font-size:9pt;margin-right: 15px;"
+                    for
                   > {{ comment.upvote }}</span>
                   <b-icon-hand-thumbs-down
                     :variant="comment.vote_status == -1? 'primary': ''"
                     @click="downvote(comment.id, index)"
                     style="cursor: pointer;"
-                  ></b-icon-hand-thumbs-down><span
+                  ></b-icon-hand-thumbs-down>
+                  <span
                     class="text-muted"
                     style="font-size:9pt;"
                   > {{ comment.downvote }}</span>
@@ -246,7 +256,7 @@ export default {
       })
     },
     getIcon (id) {
-      return this.BACKEND + '/userIcon/userID_' + id + '.png'
+      return this.BACKEND + '/userIcon/' + id + '.png'
     }
   },
   mounted () {
