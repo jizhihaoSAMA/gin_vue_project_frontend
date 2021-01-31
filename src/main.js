@@ -24,13 +24,20 @@ Vue.use(VueAxios, axios);
 
 Vue.prototype.BACKEND = process.env.VUE_APP_BACKEND
 
-Vue.prototype.showError = function (err) {
-  this.$bvToast.toast(err.response.data.msg, {
-    title: '操作失败',
-    variant: 'danger',
-    solid: true,
-  })
-}
+Vue.prototype.action_icon_mapper = {
+  // 暂时不做查看赞了哪个评论
+  1: 'chat',
+  2: 'heart',
+  3: 'box-arrow-up',
+},
+
+  Vue.prototype.showError = function (err) {
+    this.$bvToast.toast(err.response.data.msg, {
+      title: '操作失败',
+      variant: 'danger',
+      solid: true,
+    })
+  }
 
 Vue.prototype.showCustomError = function (title, msg) {
   this.$bvToast.toast(msg, {

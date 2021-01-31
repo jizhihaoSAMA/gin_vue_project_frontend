@@ -180,12 +180,7 @@ export default {
         女: '她',
         保密: 'TA'
       },
-      action_icon_mapper: {
-        // 暂时不做查看赞了哪个评论
-        1: 'chat',
-        2: 'heart',
-        3: 'box-arrow-up',
-      },
+
       actions: [{
         time: 123,
         // 1是评论， 2是点赞， 3是关注
@@ -246,7 +241,7 @@ export default {
     }
   },
   mounted () {
-
+    // 如果id不存在或者res的status为400，则跳转notFound
   }
 }
 </script>
