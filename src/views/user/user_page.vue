@@ -242,6 +242,7 @@ export default {
   },
   mounted () {
     // 如果id不存在或者res的status为400，则跳转notFound
+
   }
 }
 </script>
