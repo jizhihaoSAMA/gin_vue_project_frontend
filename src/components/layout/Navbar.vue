@@ -101,7 +101,7 @@
 </template>
 <script>
 import { mapState, mapActions } from 'vuex'
-import request from '@/utils/request'
+// import request from '@/utils/request'
 
 export default {
   data () {
@@ -163,9 +163,9 @@ export default {
       this.userLogout()
     },
     getUnreadMessage () {
-      request.get("/test").then(res => {
-        this.unreadmessage = res.data.unread
-      })
+      // request.get("/test").then(res => {
+      //   this.unreadmessage = res.data.unread
+      // })
     },
     showMessage () {
       console.log("获取数据库内容")

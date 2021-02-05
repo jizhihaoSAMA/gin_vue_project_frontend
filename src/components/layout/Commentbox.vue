@@ -158,13 +158,17 @@
           </div>
         </b-list-group-item>
       </b-list-group>
+      <paginator service="comment" />
     </div>
   </div>
 </template>
 <script>
 import request from '@/utils/request'
+import Paginator from './Paginator.vue'
+
 
 export default {
+  components: { Paginator },
   data () {
     return {
       post_comment: '',
@@ -172,7 +176,9 @@ export default {
       tip: '',
       showCommentBox: false,
       mention_user_tip: "",
-      target_comment_id: 0
+      target_comment_id: 0,
+      current_page: 1,
+      each_page_amount: 10,
     }
   },
   computed: {
@@ -247,10 +253,12 @@ export default {
       request.get("/get/comments", {
         params: {
           news_id: this.$route.params.news_id,
+          page: this.$route.query.page
         }
       }).then(res => {
         console.log(res)
-        this.comment_list = res.data.data.comments
+        this.comment_list = res.data.data.comment_info.comments
+        this.current_page = res.data.data.current_page
       }).catch(err => {
         this.showError(err)
       })
