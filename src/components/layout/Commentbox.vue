@@ -22,7 +22,7 @@
             v-model="post_comment"
             :state="post_comment.length <= 200 && post_comment.length > 5"
             :placeholder="this.mention_user_tip || '发布和善内容哟~'"
-            @input="changeTip"
+            @input="change_tip"
           ></b-textarea>
           <b-row>
             <b-col
@@ -59,7 +59,7 @@
                 block
                 pill
                 variant="primary"
-                @click="sendComment"
+                @click="send_comment"
               >发送</b-button>
             </b-col>
           </b-row>
@@ -82,7 +82,7 @@
 
               <p>
                 <b-avatar
-                  :src="getIcon(comment.user_id)"
+                  :src="get_icon(comment.user_id)"
                   :href="'/user/'+ comment.user_id"
                 />
                 <b-button
@@ -102,7 +102,7 @@
             >
               <b-avatar
                 :href="'/user/'+comment.target_comment_user_id"
-                :src="getIcon(comment.target_comment_user_id)"
+                :src="get_icon(comment.target_comment_user_id)"
               ></b-avatar>
               {{ comment.target_comment_username}}
               <hr>
@@ -158,17 +158,23 @@
           </div>
         </b-list-group-item>
       </b-list-group>
-      <paginator service="comment" />
+      <paginator
+        service="comment"
+        :get_item_amount="get_comment_amount"
+        @get_comment="get_comment($event)"
+      />
     </div>
   </div>
 </template>
 <script>
 import request from '@/utils/request'
-import Paginator from './Paginator.vue'
-
+// import Paginator from './Paginator.vue'
+import qs from 'querystring'
 
 export default {
-  components: { Paginator },
+  components: {
+    Paginator: () => import("./Paginator.vue")
+  },
   data () {
     return {
       post_comment: '',
@@ -207,7 +213,7 @@ export default {
       data.append("status", this.comment_list[index].vote_status == 1 ? 0 : 1)
       request.post("post/voteOnComment", data).then(res => {
         this.showSuccessInfo(res)
-        this.getComment()
+        this.get_comment()
       }).catch(err => {
         console.log(err.response)
       })
@@ -219,12 +225,12 @@ export default {
       data.append("status", this.comment_list[index].vote_status == -1 ? 0 : -1)
       request.post("post/voteOnComment", data).then(res => {
         this.showSuccessInfo(res)
-        this.getComment()
+        this.get_comment()
       }).catch(err => {
         console.log(err.response)
       })
     },
-    changeTip () {
+    change_tip () {
       if (this.post_comment.length <= 5) {
         this.tip = "评论字数不得少于5个"
       } else if (this.post_comment.length >= 50) {
@@ -233,7 +239,7 @@ export default {
         this.tip = ""
       }
     },
-    sendComment () {
+    send_comment () {
       if (this.post_comment && this.tip == "") {
         var data = new FormData()
         data.append("news_id", this.news_id)
@@ -241,7 +247,7 @@ export default {
         data.append("target_comment_id", this.target_comment_id)
         request.post("/post/comment", data).then(res => {
           this.showSuccessInfo(res)
-          this.getComment()
+          this.get_comment(1)
         }).catch(err => {
           this.showCustomError("发送失败", err.response.data.msg)
         })
@@ -249,11 +255,11 @@ export default {
         this.showCustomError("发送失败", "请检查输入")
       }
     },
-    getComment () {
+    get_comment (page) {
       request.get("/get/comments", {
         params: {
           news_id: this.$route.params.news_id,
-          page: this.$route.query.page
+          page: page
         }
       }).then(res => {
         console.log(res)
@@ -263,12 +269,21 @@ export default {
         this.showError(err)
       })
     },
-    getIcon (id) {
+    get_icon (id) {
       return this.BACKEND + '/userIcon/' + id + '.png'
+    },
+    get_comment_amount () {
+      var news_id = this.news_id
+      request.post("/post/commentAmount", qs.stringify({ news_id })).then(res => {
+        return res.data.data.comment_amount
+      }).catch(err => {
+        this.showError(err)
+        return 0
+      })
     }
   },
   mounted () {
-    this.getComment()
+    this.get_comment()
   }
 }
 </script>
