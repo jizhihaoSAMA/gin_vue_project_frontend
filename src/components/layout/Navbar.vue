@@ -131,6 +131,7 @@ export default {
       //   target_comment_id: 123,
       // }],
       unreadmessage_amount: 0,
+      unreadmessage: "测试种",
       recent_message: [{
         type: 2,
         time: 123,
@@ -166,6 +167,7 @@ export default {
       // request.get("/test").then(res => {
       //   this.unreadmessage = res.data.unread
       // })
+
     },
     showMessage () {
       console.log("获取数据库内容")

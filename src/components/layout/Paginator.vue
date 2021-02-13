@@ -1,16 +1,64 @@
 <template>
   <div
-    class=""
+    class="text-center"
     id=""
   >
-    <b-button
-      v-for="page_number in all_page_range"
-      :key="page_number "
-      @click="get_update(page_number)"
-      :variant="current_page == page_number ? 'primary': 'outline-primary'"
-    >
-      {{page_number}}
-    </b-button>
+    <b-row>
+      <b-col
+        cols="12"
+        md="9"
+      >
+        <b-button
+          @click="get_update(current_page - 1)"
+          variant="outline-primary"
+          v-if="current_page != 1"
+        >&lt;</b-button>
+        <span
+          class="h5"
+          v-show="current_page > 2"
+        > ... </span>
+        <b-button
+          v-for="page_number in show_range"
+          :key="page_number "
+          @click="get_update(page_number)"
+          :variant="current_page == page_number ? 'primary': 'outline-primary'"
+        >
+          {{page_number}}
+        </b-button>
+        <span
+          class="h5"
+          v-show="current_page < end_page - 1"
+        > ... </span>
+
+        <b-button
+          @click="get_update(current_page + 1)"
+          variant="outline-primary"
+          v-if="current_page != end_page"
+        >&gt;</b-button>
+
+      </b-col>
+      <b-col
+        cols="12"
+        md="3"
+      >
+        <b-input-group>
+          <b-form-input
+            class="w-25 form-control"
+            v-model="jump_to_page"
+          ></b-form-input>
+          <b-input-group-append>
+            <b-button
+              variant="primary"
+              @click="() => {
+                jump_to_page
+                }"
+            >跳转</b-button>
+          </b-input-group-append>
+        </b-input-group>
+
+      </b-col>
+    </b-row>
+
   </div>
 </template>
 <script>
@@ -19,8 +67,10 @@ export default {
   data () {
     return {
       current_page: 1,
-      all_page_range: 0,
       each_page_amount: 10,
+      end_page: 0,
+      show_range: null,
+      jump_to_page: "",
     }
   },
   props: [
@@ -33,16 +83,23 @@ export default {
       if (this.service == 'comment') {
         this.$emit("get_comment", number)
       }
+      // 刷新范围
+      this.show_range = this.get_show_range()
     },
+    get_show_range () {
+      var start = this.current_page > 1 ? this.current_page - 1 : 1
+      console.log(1)
+      return [...new Array(this.end_page + 1).keys()].slice(start, this.current_page + 3)
+    }
   },
   mounted () {
-    setTimeout(() => {
-      this.all_page_range = this.get_item_amount()
-      console.log(2000)
-      console.log(this.all_page_range)
-    }, 2000)
-
-
+    this.get_item_amount.then(amount => {
+      this.end_page = Math.ceil(amount / this.each_page_amount)
+      console.log(this.end_page)
+      this.show_range = this.get_show_range()
+    }).catch(err => {
+      this.showError(err)
+    })
   }
 }
 </script>

@@ -70,7 +70,7 @@
       class="mt-3"
       style="border-color:black;"
     >
-      <b-list-group>
+      <b-list-group class="mb-4">
         <b-list-group-item
           class="flex-column align-items-start"
           v-for="(comment,index) in comment_list"
@@ -184,7 +184,15 @@ export default {
       mention_user_tip: "",
       target_comment_id: 0,
       current_page: 1,
-      each_page_amount: 10,
+      get_comment_amount: new Promise((resolve, reject) => {
+        var news_id = this.news_id
+        request.post("/post/commentAmount", qs.stringify({ news_id })).then(res => {
+          resolve(res.data.data.comment_amount)
+        }
+        ).catch(err => {
+          reject(err)
+        })
+      })
     }
   },
   computed: {
@@ -262,7 +270,6 @@ export default {
           page: page
         }
       }).then(res => {
-        console.log(res)
         this.comment_list = res.data.data.comment_info.comments
         this.current_page = res.data.data.current_page
       }).catch(err => {
@@ -272,15 +279,7 @@ export default {
     get_icon (id) {
       return this.BACKEND + '/userIcon/' + id + '.png'
     },
-    get_comment_amount () {
-      var news_id = this.news_id
-      request.post("/post/commentAmount", qs.stringify({ news_id })).then(res => {
-        return res.data.data.comment_amount
-      }).catch(err => {
-        this.showError(err)
-        return 0
-      })
-    }
+
   },
   mounted () {
     this.get_comment()
