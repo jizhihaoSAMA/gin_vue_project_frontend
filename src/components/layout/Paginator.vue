@@ -7,11 +7,14 @@
       <b-col
         cols="12"
         md="9"
+        class="mt-2"
       >
         <b-button
           @click="get_update(current_page - 1)"
           variant="outline-primary"
           v-if="current_page != 1"
+          style="float:left"
+          pill
         >&lt;</b-button>
         <span
           class="h5"
@@ -22,6 +25,8 @@
           :key="page_number "
           @click="get_update(page_number)"
           :variant="current_page == page_number ? 'primary': 'outline-primary'"
+          pill
+          class="ml-1 mr-1"
         >
           {{page_number}}
         </b-button>
@@ -34,6 +39,8 @@
           @click="get_update(current_page + 1)"
           variant="outline-primary"
           v-if="current_page != end_page"
+          style="float:right"
+          pill
         >&gt;</b-button>
 
       </b-col>
@@ -41,16 +48,23 @@
         cols="12"
         md="3"
       >
-        <b-input-group>
+        <b-input-group class="mt-2">
           <b-form-input
             class="w-25 form-control"
             v-model="jump_to_page"
+            type="number"
+            min="1"
+            :max="end_page"
           ></b-form-input>
           <b-input-group-append>
             <b-button
               variant="primary"
               @click="() => {
-                jump_to_page
+                if((this.jump_to_page < 1)||(this.jump_to_page > this.end_page)){
+                  this.showCustomError('操作失败', '该页码不存在')
+                } else {
+                  this.get_update(this.jump_to_page)
+                }
                 }"
             >跳转</b-button>
           </b-input-group-append>
@@ -80,15 +94,13 @@ export default {
   methods: {
     get_update (number) {
       this.current_page = number
-      if (this.service == 'comment') {
-        this.$emit("get_comment", number)
-      }
+
+      this.$emit(this.service, number)
       // 刷新范围
       this.show_range = this.get_show_range()
     },
     get_show_range () {
       var start = this.current_page > 1 ? this.current_page - 1 : 1
-      console.log(1)
       return [...new Array(this.end_page + 1).keys()].slice(start, this.current_page + 3)
     }
   },

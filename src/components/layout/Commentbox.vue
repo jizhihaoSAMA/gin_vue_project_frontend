@@ -159,7 +159,7 @@
         </b-list-group-item>
       </b-list-group>
       <paginator
-        service="comment"
+        service="get_comment"
         :get_item_amount="get_comment_amount"
         @get_comment="get_comment($event)"
       />
@@ -168,7 +168,7 @@
 </template>
 <script>
 import request from '@/utils/request'
-// import Paginator from './Paginator.vue'
+// import Paginator from './Paginator.vue' 
 import qs from 'querystring'
 
 export default {
