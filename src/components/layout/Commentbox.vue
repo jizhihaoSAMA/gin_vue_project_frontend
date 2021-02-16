@@ -162,6 +162,7 @@
         service="get_comment"
         :get_item_amount="get_comment_amount"
         @get_comment="get_comment($event)"
+        ref="son"
       />
     </div>
   </div>
@@ -221,7 +222,7 @@ export default {
       data.append("status", this.comment_list[index].vote_status == 1 ? 0 : 1)
       request.post("post/voteOnComment", data).then(res => {
         this.showSuccessInfo(res)
-        this.get_comment()
+        this.get_comment(this.current_page)
       }).catch(err => {
         console.log(err.response)
       })
@@ -233,7 +234,7 @@ export default {
       data.append("status", this.comment_list[index].vote_status == -1 ? 0 : -1)
       request.post("post/voteOnComment", data).then(res => {
         this.showSuccessInfo(res)
-        this.get_comment()
+        this.get_comment(this.current_page)
       }).catch(err => {
         console.log(err.response)
       })
@@ -271,7 +272,7 @@ export default {
         }
       }).then(res => {
         this.comment_list = res.data.data.comment_info.comments
-        this.current_page = res.data.data.current_page
+        this.current_page = res.data.data.comment_info.current_page
       }).catch(err => {
         this.showError(err)
       })
@@ -282,7 +283,22 @@ export default {
 
   },
   mounted () {
-    this.get_comment()
+    if (this.$route.params.comment_id) { // 查询comment_id
+      var comment_id = this.$route.params.comment_id
+      request.post("/test",
+        qs.stringify({ comment_id })
+      ).then(res => {
+        this.current_page = res.data.data.comment_info.current_page
+        this.$refs.son.current_page = res.data.data.comment_info.current_page
+        this.get_comment(this.current_page)
+      }).then(() => {
+        setTimeout(() => {
+          document.querySelector("#comment_" + comment_id).scrollIntoView({ behavior: 'smooth' })
+        }, 1000)
+      })
+    } else {
+      this.get_comment(this.current_page)
+    }
   }
 }
 </script>
