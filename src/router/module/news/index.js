@@ -9,6 +9,7 @@ const newsRoutes = [
         name: 'news',
         component: () => import("@/views/page_template/news_template"),
         children: [{
+            name: "comment",
             path: ':comment_id',
             component: () => import("@/views/page_template/news_template")
         }]

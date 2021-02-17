@@ -26,6 +26,9 @@ Vue.prototype.BACKEND = process.env.VUE_APP_BACKEND
 
 Vue.prototype.action_icon_mapper = {
   // 暂时不做查看赞了哪个评论
+  // 1: 评论
+  // 2: 点赞
+  // 3: 关注
   1: 'chat',
   2: 'heart',
   3: 'box-arrow-up',

@@ -73,6 +73,7 @@
       <b-list-group class="mb-4">
         <b-list-group-item
           class="flex-column align-items-start"
+          :class="$route.params.comment_id == comment.id ? 'highlight' : '' "
           v-for="(comment,index) in comment_list"
           :key="index"
           :id="'comment_' + comment.id"
@@ -99,6 +100,8 @@
             <b-card
               v-if="comment.target_comment_user_id"
               class="target_comment mb-2"
+              @click="jump_to_comment(comment.target_comment_id)"
+              style="cursor: pointer;"
             >
               <b-avatar
                 :href="'/user/'+comment.target_comment_user_id"
@@ -107,7 +110,9 @@
               {{ comment.target_comment_username}}
               <hr>
               {{ comment.target_comment_content }}
+
             </b-card>
+
             <p class="mb-1">
               {{ comment.comment }}
             </p>
@@ -256,7 +261,7 @@ export default {
         data.append("target_comment_id", this.target_comment_id)
         request.post("/post/comment", data).then(res => {
           this.showSuccessInfo(res)
-          this.get_comment(1)
+          this.get_comment(this.current_page)
         }).catch(err => {
           this.showCustomError("发送失败", err.response.data.msg)
         })
@@ -280,17 +285,22 @@ export default {
     get_icon (id) {
       return this.BACKEND + '/userIcon/' + id + '.png'
     },
-
+    jump_to_comment (id) {
+      window.location.href = "/news/" + this.$route.params.news_id + "/" + id
+    }
   },
   mounted () {
     if (this.$route.params.comment_id) { // 查询comment_id
       var comment_id = this.$route.params.comment_id
-      request.post("/test",
+      request.post("/post/getPage",
         qs.stringify({ comment_id })
       ).then(res => {
-        this.current_page = res.data.data.comment_info.current_page
-        this.$refs.son.current_page = res.data.data.comment_info.current_page
-        this.get_comment(this.current_page)
+        setTimeout(() => {
+          // 等待子组件加载出来，否则无法给子组件赋值
+          this.current_page = res.data.data.comment_info.current_page
+          this.$refs.son.current_page = this.current_page
+          this.get_comment(this.current_page)
+        }, 500)
       }).then(() => {
         setTimeout(() => {
           document.querySelector("#comment_" + comment_id).scrollIntoView({ behavior: 'smooth' })
@@ -306,5 +316,26 @@ export default {
 <style scoped>
 .target_comment {
   border-color: black;
+}
+
+.target_comment:hover {
+  background: whitesmoke;
+}
+
+.highlight {
+  animation: hightlight_frame 1s 3;
+  /* background: green; */
+}
+
+@keyframes hightlight_frame {
+  from {
+    background: white;
+  }
+  50% {
+    background: gray;
+  }
+  to {
+    background: white;
+  }
 }
 </style>

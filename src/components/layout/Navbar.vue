@@ -48,6 +48,7 @@
               <b-dropdown-item
                 v-for="(message, index) in recent_message"
                 :key="index"
+                class="mt-2"
               >
                 <!-- 以后做消息的分类 -->
                 <!-- <b-tabs
@@ -61,8 +62,11 @@
                   <b-tab title="关注"></b-tab>
                   <b-tab title="回复"></b-tab>
                 </b-tabs> -->
-                <b-icon :icon="action_icon_mapper[message.type]"></b-icon>
-                <p v-html="convertToWord(message)"></p>
+                <b-icon
+                  :icon="action_icon_mapper[message.type]"
+                  class="mr-2"
+                ></b-icon>
+                <span v-html="convertToWord(message)"></span>
               </b-dropdown-item>
               <b-button
                 variant="link"
@@ -136,14 +140,21 @@ export default {
         type: 2,
         time: 123,
         from_user_id: "1",
-        from_username: "某个人1"
+        from_username: "某个人1",
+        target_comment_id: 1,
       }, {
         type: 1,
         time: 123,
         from_user_id: "2",
-        from_username: "某个人2"
+        from_username: "某个人2",
+        from_news_id: "",
+        from_news_name: "",
+        from_comment_id: 11,
       }, {
-
+        type: 3,
+        time: 333,
+        from_username: "某个人3",
+        from_user_id: "4"
       }],
     }
   },
@@ -155,8 +166,8 @@ export default {
     convertToWord (action) {
       return {
         1: `<a href="/user/${action["from_user_id"]}">${action["from_username"]}</a> 在新闻${action['target_news_name']}中回复了你的评论`,
-        2: `<a href="/user/${action["from_user_id"]}">${action["from_username"]}</a> 赞了评论 <a href="${action['target_comment_id']}`,
-        3: `<a href="/user/${action["from_user_id"]}">${action["from_username"]}</a> 关注了用户 <a href="/user/${action['target_user_id']}"> ${action['target_username']} </a>`,
+        2: `<a href="/user/${action["from_user_id"]}">${action["from_username"]}</a> 赞了你的  <a href="${action['target_comment_id']}>评论</a>`,
+        3: `<a href="/user/${action["from_user_id"]}">${action["from_username"]}</a> 关注了你 `,
       }[action.type]
     },
     logout () {
