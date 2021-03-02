@@ -43,15 +43,16 @@
                   @click="showMessage"
                 >
                 </b-icon>
-                <b-badge v-if="unreadmessage">{{ unreadmessage }}</b-badge>
+                <b-badge v-if="unreadnotice_amount">{{ unreadnotice_amount }}</b-badge>
               </template>
-              <b-dropdown-item
-                v-for="(message, index) in recent_message"
-                :key="index"
-                class="mt-2"
-              >
-                <!-- 以后做消息的分类 -->
-                <!-- <b-tabs
+              <div v-if="recent_notice">
+                <b-dropdown-item
+                  v-for="(message, index) in recent_notice"
+                  :key="index"
+                  class="mt-2"
+                >
+                  <!-- 以后做消息的分类 -->
+                  <!-- <b-tabs
                   pills
                   card
               
@@ -62,12 +63,16 @@
                   <b-tab title="关注"></b-tab>
                   <b-tab title="回复"></b-tab>
                 </b-tabs> -->
-                <b-icon
-                  :icon="action_icon_mapper[message.type]"
-                  class="mr-2"
-                ></b-icon>
-                <span v-html="convertToWord(message)"></span>
-              </b-dropdown-item>
+                  <b-icon
+                    :icon="action_icon_mapper[message.type]"
+                    class="mr-2"
+                  ></b-icon>
+                  <span v-html="convertToWord(message)"></span>
+                </b-dropdown-item>
+              </div>
+              <div v-if="!recent_notice">
+                暂无消息
+              </div>
               <b-button
                 variant="link"
                 size="sm"
@@ -105,57 +110,34 @@
 </template>
 <script>
 import { mapState, mapActions } from 'vuex'
-// import request from '@/utils/request'
+import request from '@/utils/request'
 
 export default {
   data () {
     return {
-      // action_icon_mapper: {
-      //   // 暂时不做查看赞了哪个评论
-      //   1: 'chat',
-      //   2: 'heart',
-      //   3: 'box-arrow-up',
-      // },
-      // actions: [{
-      //   time: 123,
-      //   // 1是评论， 2是点赞， 3是关注
-      //   type: 3,
-      //   target_user_id: 10,
-      //   target_username: "机智豪SAMA",
-      // }, {
-      //   time: 123,
-      //   // 1是评论， 2是点赞某个评论， 3是关注
+      // 1是评论， 2是点赞某个评论， 3是关注
+      unreadnotice_amount: 0,
+      // recent_message: [{
       //   type: 2,
-      //   target_comment_id: 100,
+      //   time: 123,
+      //   from_user_id: "1",
+      //   from_username: "某个人1",
+      //   target_comment_id: 1,
       // }, {
-      //   time: 234,
       //   type: 1,
-      //   target_news_id: 12333,
-      //   target_news_name: "你居然xxxxx",
-      //   target_comment_id: 123,
+      //   time: 123,
+      //   from_user_id: "2",
+      //   from_username: "某个人2",
+      //   from_news_id: "",
+      //   from_news_name: "",
+      //   from_comment_id: 11,
+      // }, {
+      //   type: 3,
+      //   time: 333,
+      //   from_username: "某个人3",
+      //   from_user_id: "4"
       // }],
-      unreadmessage_amount: 0,
-      unreadmessage: "测试种",
-      recent_message: [{
-        type: 2,
-        time: 123,
-        from_user_id: "1",
-        from_username: "某个人1",
-        target_comment_id: 1,
-      }, {
-        type: 1,
-        time: 123,
-        from_user_id: "2",
-        from_username: "某个人2",
-        from_news_id: "",
-        from_news_name: "",
-        from_comment_id: 11,
-      }, {
-        type: 3,
-        time: 333,
-        from_username: "某个人3",
-        from_user_id: "4"
-      }],
+      recent_notice: [],
     }
   },
   computed: mapState({
@@ -174,10 +156,12 @@ export default {
       this.$router.push({ name: "index" })
       this.userLogout()
     },
-    getUnreadMessage () {
-      // request.get("/test").then(res => {
-      //   this.unreadmessage = res.data.unread
-      // })
+    get_unread_notice () {
+      request.post("/post/getRecentNotice").then(res => {
+        console.log(res)
+      }).catch(err => {
+        this.showError(err)
+      })
 
     },
     showMessage () {
@@ -185,7 +169,8 @@ export default {
     }
   },
   mounted () {
-    setTimeout(this.getUnreadMessage, 10)
+    setTimeout(this.get_unread_notice, 10)
+
   }
 
 

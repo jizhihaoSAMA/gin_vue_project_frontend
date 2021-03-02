@@ -45,7 +45,7 @@
                 <b-list-group-item
                   v-for="news in hot_news"
                   :key="news.id"
-                  :href="'/news?id=' + news.id"
+                  :href="'/news/' + news.id"
                   class="noRadius"
                 >
                   {{ news.title }}
@@ -83,19 +83,7 @@ export default {
         // }
       ],
       hot_news: [
-        {
-          "id": 1,
-          "title": "这是新闻1-这是新闻1-这是新闻1-这是新闻1-这是新闻1-这是新闻1",
-          "time": "2020-08-01",
-          "from": "BBC",
-          "text": "据本台消息，发生了新闻1",
-        }, {
-          "id": 2,
-          "title": "这是新闻二desu",
-          "time": "2020-09-01",
-          "from": "CCTV",
-          "text": "据本台消息，这是啥？"
-        }
+
       ],
     }
   },
@@ -107,10 +95,17 @@ export default {
       }
     }).then(res => {
       this.news_list = res.data.news
-      console.log(res)
+
     }).catch(err => {
-      console.log(err)
+      this.showError(err)
     })
+
+    request.get("/get/hotNews").then(res => {
+      this.hot_news = res.data.data.hot_news
+    }).catch(err => {
+      this.showError(err)
+    })
+
   },
 }
 </script>

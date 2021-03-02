@@ -106,6 +106,7 @@ export default {
   },
   mounted () {
     this.get_item_amount.then(amount => {
+      console.log(amount)
       this.end_page = Math.ceil(amount / this.each_page_amount)
       this.show_range = this.get_show_range()
     }).catch(err => {
